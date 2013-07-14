@@ -1,0 +1,7 @@
+export DIR_workspace="$HOME/workspace"
+alias ash="adb $DEFAULTEMULATOR shell"
+alias ipy='ipython --profile=pysh'
+alias emu='emulator -avd audit -no-snapshot-save'
+alias spadelog='adb $DEFAULTEMULATOR shell cat /sdcard/spade.log'
+alias auditdot='adb $DEFAULTEMULATOR shell cat /sdcard/audit.dot'
+alias apull='adb $DEFAULTEMULATOR pull'
