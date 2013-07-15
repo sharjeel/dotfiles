@@ -37,7 +37,7 @@ def file_replace_or_append(filename, to_replace, replwith, at_end=True):
     if not file_replace_line(filename, to_replace, replwith):
         if at_end:
             with open(filename, "a") as initel_file:
-                initel_file.write(replwith)
+                initel_file.write(replwith + '\n')
         else:
             with file(filename, 'r') as original: data = original.read()
             with file(filename, 'w') as modified: 
