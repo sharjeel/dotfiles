@@ -1,5 +1,5 @@
 # Theme
-ZSH_THEME="robbyrussell"
+ZSH_THEME="gentoo"
 
 # Enable Bashmarks
 source ~/.local/bin/bashmarks.sh
