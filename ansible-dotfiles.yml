@@ -1,0 +1,30 @@
+# Ansible playbook to setup dot files via linking, source'ing or includes
+# 
+# Usage: ansible-playbook -i hosts ansible-dotfiles.yml
+#
+
+---
+- hosts: localhost
+  vars:
+    myemacs: $userhome/.personalconfig/emacs.d/emacs.init.el
+
+  tasks:
+    - name: Checkout this repo in home/.personalconfig
+      git: repo=git://github.com/sharjeel/dotfiles.git dest=~/.personalconfig update=no
+
+    - shell: echo $HOME
+      register: userhome
+
+    - name: Setup personal emacs configuration
+      lineinfile: dest={{ userhome.stdout }}/.emacs.d/init.el state=present create=yes insertbefore='BOF'
+                  regexp='\(load-file \(expand-file-name ".*"\)\); Customized config'
+                  line='(load-file (expand-file-name "{{ item }}")); Customized config'
+      with_items:
+         userhome.stdout + '/.personalconfig/emacs.init.el'
+
+    - name: Setup personal bashmarks
+      lineinfile: dest={{ userhome.stdout }}/.sdirs state=present create=yes insertafter='EOF' create=yes
+                  regexp='^source ' line='source {{ item }}'
+      with_items:
+          userhome.stdout + '/.personalconfig/bashmarks.sdirs'
+

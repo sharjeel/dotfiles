@@ -1,4 +1,7 @@
-"""Sharjeel's Scripts installation
+"""
+Note: This is depricated and is only used for emacs on Windows. Use the ansible-playbook.yml ansible playbook.
+
+Sharjeel's Scripts installation
 Usage:
    install.py [ --all | PACKAGE ... ]
 """
