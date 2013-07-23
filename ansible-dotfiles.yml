@@ -24,7 +24,12 @@
 
     - name: Setup personal bashmarks
       lineinfile: dest={{ userhome.stdout }}/.sdirs state=present create=yes insertafter='EOF' create=yes
-                  regexp='^source ' line='source {{ item }}'
+                  regexp='^source ' line="source {{ item }}"
       with_items:
-          userhome.stdout + '/.personalconfig/bashmarks.sdirs'
+         userhome.stdout + '/.personalconfig/bashmarks.sdirs'
 
+    - name: Setup personal zshrc
+      lineinfile: dest={{ userhome.stdout }}/.zshrc state=present create=yes insertbefore='source.*oh-my-zsh\.sh'
+                  regexp='^source.*zsh.zshrc' line="source {{ item }}"
+      with_items:
+          userhome.stdout + '/.personalconfig/zsh.zshrc'
