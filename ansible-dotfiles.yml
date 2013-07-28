@@ -6,8 +6,8 @@
 ---
 - hosts: localhost
   vars:
-    myemacs: $userhome/.personalconfig/emacs.d/emacs.init.el
-
+    is_server: "'${ansible_distribution}' == 'Ubuntu'"
+    
   tasks:
     - name: Checkout this repo in home/.personalconfig
       git: repo=git://github.com/sharjeel/dotfiles.git dest=~/.personalconfig update=no
@@ -33,3 +33,10 @@
                   regexp='^source.*zsh.zshrc' line="source {{ item }}"
       with_items:
           userhome.stdout + '/.personalconfig/zsh.zshrc'
+
+    - name: Set prompt color for ubuntu servers
+      lineinfile: dest={{ item }} state=present create=yes insertafter='source.*oh-my-zsh\.sh'
+                 regexp='PS1=.*' line='PS1="%B%{$fg[red]%}%n@%{$fg[green]%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "'
+      only_if: "$is_server"
+      with_items:
+          userhome.stdout + '/.zshrc'
