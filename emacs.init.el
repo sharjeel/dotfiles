@@ -15,15 +15,17 @@
 ; (load-theme (quote solarized-dark) nil nil)
 
 (menu-bar-mode t)
-(cond ((eq system-type 'windows-nt)
-       (set-face-attribute 'default nil :font "Consolas 10")
-       ; (set-face-attribute 'default nil :font "Droid Sans Mono 10")
-       (scroll-bar-mode 0)
-       )
-      ((eq system-type 'gnu/linux)
-       (set-face-attribute 'default nil :font "DejaVu Sans Mono 10")
-       )
-)
+(ignore-errors
+  (cond ((eq system-type 'windows-nt)
+	 (set-face-attribute 'default nil :font "Consolas 10")
+	 ; (set-face-attribute 'default nil :font "Droid Sans Mono 10")
+	 (scroll-bar-mode 0)
+	 )
+	((eq system-type 'gnu/linux)
+	 (set-face-attribute 'default nil :font "DejaVu Sans Mono 10")
+	 )
+	)
+  )
  
 (auto-fill-mode -1)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
@@ -35,8 +37,9 @@
     (zencoding-mode (quote toggle)) )
  
 ;; Yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
+(require 'yasnippet nil t)
+(if (fboundp 'yas-global-mode)
+    (yas-global-mode 1) )
  
 ;; Python related stuff
 (setq python-indent 4)
