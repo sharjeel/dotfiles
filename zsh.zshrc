@@ -6,3 +6,5 @@ source ~/.local/bin/bashmarks.sh
 
 # Aliases
 alias grep='grep --color=auto'
+
+export PATH=~/.personalconfig/bin/:$PATH
