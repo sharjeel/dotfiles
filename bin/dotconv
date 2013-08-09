@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+
+use File::Basename;
+
+$dotfile = $ARGV[0];
+
+($fileBaseName, $dirName, $fileExtension) = fileparse($dotfile, ('\.dot') );
+
+
+$cmd = "dot -Tsvg $dotfile > $fileBaseName.svg";
+print $cmd;
+`$cmd`;
+
+
+
+
+
+
