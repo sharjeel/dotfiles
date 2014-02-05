@@ -14,7 +14,11 @@
 ; (load-theme (quote monokai) nil nil)
 ; (load-theme (quote solarized-dark) nil nil)
 
+(setq initial-scratch-message "")
+(setq inhibit-startup-message t)
+(setq visible-bell t)
 (menu-bar-mode t)
+
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
 	 (set-face-attribute 'default nil :font "Consolas 10")
