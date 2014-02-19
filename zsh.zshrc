@@ -9,6 +9,9 @@ alias grep='grep --color=auto'
 alias wemacs='emacs -nw'
 alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
+alias sjava='ack-grep -i --java'
+alias spython='ack-grep -i --python'
+alias sxml='ack-grep -i --xml'
 
 # Alias suffixes
 alias -s el=emacs
