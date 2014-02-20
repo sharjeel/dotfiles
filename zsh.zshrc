@@ -17,7 +17,10 @@ alias sxml='ack-grep -i --xml'
 alias -s el=emacs
 alias -s html=google-chrome
 
-
+# Alt-S inserts "sudo " at the start of line
+insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo insert_sudo
+bindkey "^[s" insert-sudo
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
 
