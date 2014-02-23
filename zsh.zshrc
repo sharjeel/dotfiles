@@ -12,10 +12,19 @@ alias hilite='~/.personalconfig/scripts.py hilite'
 alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
+alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 # Alias suffixes
 alias -s el=emacs
-alias -s html=google-chrome
+
+if which google-chrome > /dev/null 2>&1; then
+    alias -s html=google-chrome
+elif which chromium-browser > /dev/null 2>&1; then
+    alias -s html=chromium-browser
+else
+    alias -s html=firefox
+fi
+
 
 # Alt-S inserts "sudo " at the start of line
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
