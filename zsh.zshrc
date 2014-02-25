@@ -13,6 +13,11 @@ alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 
+# History
+SAVEHIST=10000
+HISTSIZE=10000
+setopt SHARE_HISTORY
+
 # Alias suffixes
 alias -s el=emacs
 alias -s html=google-chrome
