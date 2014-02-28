@@ -1,0 +1,14 @@
+# Aliases
+alias aliases='wemacs ~/.personalconfig/zshaliases.rc; source ~/.zshrc'
+alias grep='grep --color=auto'
+alias grepi='grep -i'
+alias wemacs='emacs -nw'
+alias fif='~/.personalconfig/scripts.py fif'
+alias hilite='~/.personalconfig/scripts.py hilite'
+alias sjava='ack-grep -i --java'
+alias spython='ack-grep -i --python'
+alias sxml='ack-grep -i --xml'
+
+# Alias suffixes
+alias -s el=emacs
+alias -s html=google-chrome
