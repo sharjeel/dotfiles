@@ -18,5 +18,11 @@ insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
 
+# cd into directory of a file
+cdto () { cd `dirname $1`; }
+
+# There is only one default editor in the world
+export EDITOR="emacs --no-window"
+
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
 

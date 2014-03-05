@@ -1,5 +1,6 @@
 # Aliases
-alias aliases='wemacs ~/.personalconfig/zshaliases.rc; source ~/.zshrc'
+alias aliases='wemacs ~/.personalconfig/zshaliases.rc; source ~/.zshrc; echo "ZSH config reloaded"'
+alias zshconf="emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias wemacs='emacs -nw'
@@ -9,6 +10,8 @@ alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias logrep='adb logcat | grep -i'
+
 
 # Alias suffixes
 alias -s el=emacs
