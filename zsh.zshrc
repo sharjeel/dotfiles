@@ -20,9 +20,12 @@ bindkey "^[s" insert-sudo
 
 # cd into directory of a file
 cdto () { cd `dirname $1`; }
+# git diff between branches
+gitdiff () { git diff $2 $1:$2; }
 
 # There is only one default editor in the world
 export EDITOR="emacs --no-window"
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
-
+# TODO: change the color of the hostname based on the hostname
+export PS1="%B%{$fg[red]%}%n@%{$fg[green]%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "
