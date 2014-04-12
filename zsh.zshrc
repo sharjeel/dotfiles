@@ -5,7 +5,19 @@ ZSH_THEME="gentoo"
 source ~/.local/bin/bashmarks.sh
 
 SCRIPT_SOURCE=$(/bin/readlink -f ${0%/*})
-source $SCRIPT_SOURCE/zshaliases.rc
+
+# Set browser for commandline
+if [ "$(uname)" = "Linux" ]; then
+    BROWSER=open
+elif which google-chrome > /dev/null 2>&1; then
+    BROWSER=google-chrome
+elif which chromium-browser > /dev/null 2>&1; then
+    BROWSER=chromium-browser
+elif which firefox > /dev/null 2>&1; then
+    BROWSER=firefox
+else
+    BROWSER=lynx
+fi
 
 # History
 SAVEHIST=10000
@@ -24,8 +36,15 @@ cdto () { cd `dirname $1`; }
 gitdiff () { git diff $2 $1:$2; }
 
 # There is only one default editor in the world
-export EDITOR="emacs --no-window"
+if [ -n "$SSH_CLIENT" ]; then
+   export EDITOR="emacs --no-window"
+else
+   export EDITOR="emacs"
+fi
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
 # TODO: change the color of the hostname based on the hostname
 export PS1="%B%{$fg[red]%}%n@%{$fg[green]%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "
+
+# Load personal aliases
+source $SCRIPT_SOURCE/zshaliases.rc
