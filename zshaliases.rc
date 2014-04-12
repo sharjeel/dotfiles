@@ -19,13 +19,5 @@ alias pysh='ipython --profile=pysh'
 
 # Alias suffixes
 alias -s el=emacs
-
-if which google-chrome > /dev/null 2>&1; then
-    alias -s html=google-chrome
-elif which chromium-browser > /dev/null 2>&1; then
-    alias -s html=chromium-browser
-else
-    alias -s html=firefox
-fi
-
+alias -s html=$BROWSER
 
