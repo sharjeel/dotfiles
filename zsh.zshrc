@@ -43,8 +43,13 @@ else
 fi
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
-# TODO: change the color of the hostname based on the hostname
-export PS1="%B%{$fg[red]%}%n@%{$fg[green]%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "
+if [ -n "$SSH_CLIENT" ]; then
+   hostcolor=$fg[cyan]
+   # TODO: Different hostname color for different hostnames
+else
+   hostcolor=$fg[green]
+fi
+export PS1="%B%{$fg[red]%}%n@%{$hostcolor%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "
 
 # Load personal aliases
 source $SCRIPT_SOURCE/zshaliases.rc
