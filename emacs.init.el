@@ -11,7 +11,7 @@
 (package-initialize)
 
 ;; Look & Feel (This should be copied into main init.el for safe loading)
-; (load-theme (quote monokai) nil nil)
+(load-theme (quote monokai) nil nil)
 ; (load-theme (quote solarized-dark) nil nil)
 
 (setq initial-scratch-message "")
