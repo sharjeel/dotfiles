@@ -30,6 +30,11 @@ insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
 
+# Alt-i inserts "sudo apt-get install " at the start of line
+insert_apt_get_install () { zle beginning-of-line; zle -U "sudo apt-get install " }
+zle -N insert-apt-get-install insert_apt_get_install
+bindkey "^[i" insert-apt-get-install
+
 # cd into directory of a file
 cdto () { cd `dirname $1`; }
 # git diff between branches
