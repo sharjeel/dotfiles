@@ -10,6 +10,7 @@ alias hilite='~/.personalconfig/scripts.py hilite'
 alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
+alias syaml='ack-grep -i --yaml'
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias logrep='adb logcat | grep -i'
 alias tidyxml='tidy -xml -i -'
