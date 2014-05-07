@@ -11,12 +11,15 @@ alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 alias syaml='ack-grep -i --yaml'
+alias szsh='ack-grep -i --shell'
+alias sbuild='ack-grep -i --build'
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias logrep='adb logcat | grep -i'
 alias tidyxml='tidy -xml -i -'
 alias ipy='ipython'
 alias notebook='ipython notebook'
 alias pysh='ipython --profile=pysh'
+alias einit='emacs --no-window --debug-init ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el'
 
 # Alias suffixes
 alias -s el=emacs
