@@ -1,2 +1,2 @@
---type-add
-haml=.haml
+--type-add=haml=.haml
+--type-add=build:is:BUILD

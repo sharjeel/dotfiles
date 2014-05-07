@@ -34,9 +34,13 @@
       with_items:
           userhome.stdout + '/.personalconfig/zsh.zshrc'
 
-    - name: Set prompt color for ubuntu servers
-      lineinfile: dest={{ item }} state=present create=yes insertafter='source.*oh-my-zsh\.sh'
-                 regexp='PS1=.*' line='PS1="%B%{$fg[red]%}%n@%{$fg[green]%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "'
-      when: is_server
-      with_items:
-          userhome.stdout + '/.zshrc'
+    - name: Link oh-my-zsh theme
+      file: state=link src={{ userhome.stdout }}/.personalconfig/sharjeel.zsh-theme dest={{ userhome.stdout }}/.oh-my-zsh/themes/sharjeel.zsh-theme
+
+    - name: Set theme
+      lineinfile: dest={{ userhome.stdout }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
+                  regexp='^ZSH_THEME=' line='ZSH_THEME="sharjeel"'
+
+
+
+

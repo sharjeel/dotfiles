@@ -1,5 +1,5 @@
 # Theme
-ZSH_THEME="gentoo"
+ZSH_THEME="sharjeel"
 
 # Enable Bashmarks
 source ~/.local/bin/bashmarks.sh
@@ -68,13 +68,6 @@ if [ -e ~/.zsh-autosuggestions/autosuggestions.zsh ]; then
 fi
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
-if [ -n "$SSH_CLIENT" ]; then
-   hostcolor=$fg[cyan]
-   # TODO: Different hostname color for different hostnames
-else
-   hostcolor=$fg[green]
-fi
-export PS1="%B%{$fg[red]%}%n@%{$hostcolor%}%m %{$fg[blue]%}%~ $ %{$reset_color%}% "
 
 # Load personal aliases
 source $SCRIPT_SOURCE/zshaliases.rc
