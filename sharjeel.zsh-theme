@@ -9,15 +9,15 @@ ZSH_THEME_GIT_PROMPT_CLEAN=" ✔"
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[blue]%}✘"
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$hostcolor%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$hostcolor%}]"
-
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 function prompt_char {
 	if [ $UID -eq 0 ]; then echo "$fg[red]#"; else echo "$fg[blue]$"; fi
 }
 
 function host_prompt {
-             GIT_STATUS=$(command git status -s ${SUBMODULE_SYNTAX} 2> /dev/null | tail -n1)
-             if [[ -n $GIT_STATUS ]]
+             IS_GIT=$(command git rev-parse --is-inside-work-tree 2> /dev/null)
+             if [[ -n $IS_GIT ]]
              then
                 echo "$(git_prompt_info)"
              else
