@@ -69,7 +69,12 @@ fi
 
 export PATH=~/bin/:~/.personalconfig/bin/:$PATH
 
+# Common bashmarks directories
+export DIR_persconf="$HOME/.personalconfig"
+
 # Load personal aliases
 source $SCRIPT_SOURCE/zshaliases.rc
+
+
 
 
