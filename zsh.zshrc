@@ -35,6 +35,11 @@ insert_apt_get_install () { zle beginning-of-line; zle -U "sudo apt-get install 
 zle -N insert-apt-get-install insert_apt_get_install
 bindkey "^[i" insert-apt-get-install
 
+# Al-z inserts glob
+insert_glob () { zle -U "**/" }
+zle -N insert-glob insert_glob
+bindkey "^[z" insert-glob
+
 # cd into directory of a file
 cdto () { cd `dirname $1`; }
 # git diff between branches
