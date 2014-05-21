@@ -10,7 +10,6 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[blue]%}✘"
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$hostcolor%}["
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$hostcolor%}]"
 
-
 function prompt_char {
 	if [ $UID -eq 0 ]; then echo "$fg[red]#"; else echo "$fg[blue]$"; fi
 }
