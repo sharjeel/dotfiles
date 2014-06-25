@@ -7,7 +7,7 @@ source ~/.local/bin/bashmarks.sh
 SCRIPT_SOURCE=$(/bin/readlink -f ${0%/*})
 
 # Set browser for commandline
-if [ "$(uname)" = "Linux" ]; then
+if [ "$(uname)" = "Darwin" ]; then
     BROWSER=open
 elif which google-chrome > /dev/null 2>&1; then
     BROWSER=google-chrome
@@ -18,6 +18,8 @@ elif which firefox > /dev/null 2>&1; then
 else
     BROWSER=lynx
 fi
+
+export BROWSER=$BROWSER
 
 # History
 SAVEHIST=10000
@@ -40,10 +42,21 @@ insert_glob () { zle -U "**/" }
 zle -N insert-glob insert_glob
 bindkey "^[z" insert-glob
 
+# C-x C-l inserts the last line of the output of the last command
+zmodload -i zsh/parameter
+insert-last-command-output() {
+  LBUFFER+="$(eval $history[$((HISTCMD-1))] | tail -n1)"
+}
+zle -N insert-last-command-output
+bindkey "^X^L" insert-last-command-output
+
 # cd into directory of a file
 cdto () { cd `dirname $1`; }
 # git diff between branches
 gitdiff () { git diff $2 $1:$2; }
+
+# Explain shell command
+explain () { $BROWSER "http://explainshell.com/explain?cmd=$*" }
 
 # There is only one default editor in the world
 if [ -n "$SSH_CLIENT" ]; then
