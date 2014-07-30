@@ -32,6 +32,11 @@ insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
 bindkey "^[s" insert-sudo
 
+# Alt-g inserts pipe grep
+insert_grep () { zle -U " | grep -B0 -A0 " }
+zle -N insert-grep insert_grep
+bindkey "^[g" insert-grep
+
 # Alt-i inserts "sudo apt-get install " at the start of line
 insert_apt_get_install () { zle beginning-of-line; zle -U "sudo apt-get install " }
 zle -N insert-apt-get-install insert_apt_get_install
