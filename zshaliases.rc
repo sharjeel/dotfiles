@@ -4,6 +4,8 @@ alias aliases-work='wemacs ~/.zshrc-work; source ~/.zshrc-work; echo "Work alias
 alias zshconf="emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
+alias grpei='grep -i'
+alias grpe='grep'
 alias wemacs='emacs -nw'
 alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
