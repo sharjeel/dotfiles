@@ -9,12 +9,16 @@ alias grpe='grep'
 alias wemacs='emacs -nw'
 alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
+
+# Search aliases
 alias sjava='ack-grep -i --java'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 alias syaml='ack-grep -i --yaml'
 alias szsh='ack-grep -i --shell'
 alias sbuild='ack-grep -i --build'
+alias sproto='ack-grep -i --proto'
+
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias logrep='adb logcat | grep -i'
 alias tidyxml='tidy -xml -i -'
