@@ -1,2 +1,5 @@
 --type-add=haml=.haml
+--type-add=proto=.proto
 --type-add=build:is:BUILD
+--type-add=zsh=.zsh
+
