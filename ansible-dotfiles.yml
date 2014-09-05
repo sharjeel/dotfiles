@@ -41,6 +41,8 @@
       lineinfile: dest={{ userhome.stdout }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
                   regexp='^ZSH_THEME=' line='ZSH_THEME="sharjeel"'
 
+    - name: Link tmux config
+      file: state=link src={{ userhome.stdout }}/.personalconfig/tmux.conf dest={{ userhome.stdout }}/.tmux.conf
 
 
 
