@@ -7,8 +7,10 @@ alias grepi='grep -i'
 alias grpei='grep -i'
 alias grpe='grep'
 alias wemacs='emacs -nw'
+alias we='emacs -nw'
 alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
+alias gbranches='git for-each-ref --sort=-committerdate refs/heads/'
 
 # Search aliases
 alias sjava='ack-grep -i --java'

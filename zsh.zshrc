@@ -59,6 +59,9 @@ bindkey "^X^L" insert-last-command-output
 cdto () { cd `dirname $1`; }
 # git diff between branches
 gitdiff () { git diff $2 $1:$2; }
+# show recent git branches
+gitrecentbranches() { git for-each-ref --sort=-committerdate refs/heads/ }
+alias git-recent-branches=gitrecentbranches
 
 # Explain shell command
 explain () { $BROWSER "http://explainshell.com/explain?cmd=$*" }
