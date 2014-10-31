@@ -4,8 +4,6 @@ ZSH_THEME="sharjeel"
 # Enable Bashmarks
 source ~/.local/bin/bashmarks.sh
 
-SCRIPT_SOURCE=$(/bin/readlink -f ${0%/*})
-
 # Set browser for commandline
 if [ "$(uname)" = "Darwin" ]; then
     BROWSER=open
@@ -99,7 +97,7 @@ export PATH=~/bin/:~/.personalconfig/bin/:$PATH
 export DIR_persconf="$HOME/.personalconfig"
 
 # Load personal aliases
-source $SCRIPT_SOURCE/zshaliases.rc
+source ~/.personalconfig/zshaliases.rc
 
 
 
