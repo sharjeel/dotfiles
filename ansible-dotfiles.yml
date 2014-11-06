@@ -23,7 +23,7 @@
          userhome.stdout + '/.personalconfig/emacs.init.el'
 
     - name: Setup personal bashmarks
-      lineinfile: dest={{ userhome.stdout }}/.sdirs state=present create=yes insertafter='EOF' create=yes
+      lineinfile: dest={{ userhome.stdout }}/.sdirs state=present create=yes insertafter='EOF'
                   regexp='^source ' line="source {{ item }}"
       with_items:
          userhome.stdout + '/.personalconfig/bashmarks.sdirs'
