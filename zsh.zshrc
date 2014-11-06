@@ -64,7 +64,11 @@ gitrecentbranches() { git for-each-ref --sort=-committerdate refs/heads/ }
 alias git-recent-branches=gitrecentbranches
 
 # Explain shell command
-explain () { $BROWSER "http://explainshell.com/explain?cmd=$*" }
+explain () {
+        echo "This will send data to external server? Continue (y/n)? "
+        read explain_decision
+        [[ ( $explain_decision == "y" || $explain_decision == "Y" ) ]] && $BROWSER "http://explainshell.com/explain?cmd=$*" 
+}
 
 # There is only one default editor in the world
 if [ -n "$SSH_CLIENT" ]; then
