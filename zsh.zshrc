@@ -103,6 +103,21 @@ export DIR_persconf="$HOME/.personalconfig"
 # Load personal aliases
 source ~/.personalconfig/zshaliases.rc
 
+# g aliased intelligently to bashmark get or git
+g () {
+        if [ -z $1 ]; then
+           cat ~/.sdirs
+           cat ~/.g4d
+           return
+        fi
 
+        source $SDIRS
+        BASHMARK="$(eval $(echo echo $(echo \$DIR_$1)))"
+        if [ -e $BASHMARK ]; then
+           cd $BASHMARK
+        else
+           git "$@"
+        fi
+}
 
 
