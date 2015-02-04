@@ -22,6 +22,7 @@ alias sbuild='ack-grep -i --build'
 alias sproto='ack-grep -i --proto'
 
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias killsuggest="pkill -f 'completion-server.zsh'"
 alias logrep='adb logcat | grep -i'
 alias tidyxml='tidy -xml -i -'
 alias ipy='ipython'
