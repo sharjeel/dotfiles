@@ -21,16 +21,13 @@
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
-B	 (set-face-attribute 'default nil :font "Consolas 10")
+	 (set-face-attribute 'default nil :font "Consolas 10")
 	 ; (set-face-attribute 'default nil :font "Droid Sans Mono 10")
-	 (scroll-bar-mode 0)
-	 )
+	 (scroll-bar-mode 0) )
 	((eq system-type 'gnu/linux)
 	 (set-face-attribute 'default nil :font "DejaVu Sans Mono 10")
-	 )
-	)
-  )
- 
+	 )))
+
 (auto-fill-mode -1)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
  
@@ -53,3 +50,10 @@ B	 (set-face-attribute 'default nil :font "Consolas 10")
                (setq tab-always-indent t)
                (indent-tabs-mode  nil)))
  
+;; Multiple cursors
+(when (require 'multiple-cursors nil 'no-error)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-,") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/1mark-previous-like-this)
+  (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-.") 'mc/mark-more-like-this-extended) )
