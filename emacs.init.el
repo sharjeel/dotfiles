@@ -21,7 +21,7 @@
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
-B	 (set-face-attribute 'default nil :font "Consolas 10")
+	 (set-face-attribute 'default nil :font "Consolas 10")
 	 ; (set-face-attribute 'default nil :font "Droid Sans Mono 10")
 	 (scroll-bar-mode 0)
 	 )

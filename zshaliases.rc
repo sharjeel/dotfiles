@@ -1,6 +1,6 @@
 # Aliases
-alias aliases='wemacs ~/.personalconfig/zshaliases.rc; source ~/.zshrc; echo "ZSH config reloaded"'
-alias aliases-work='wemacs ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
+alias aliases='emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
+alias aliases-work='emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias zshconf="emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
@@ -32,5 +32,12 @@ alias einit='emacs --no-window --debug-init ~/.emacs.d/init.el ~/.personalconfig
 
 # Alias suffixes
 alias -s el=emacs
+alias -s txt=$EDITOR
+alias -s rc=$EDITOR
+alias -s conf=$EDITOR
 alias -s html=$BROWSER
 
+# GCloud SDK
+alias gcomp='gcloud compute'
+alias gvm='gcloud compute instances'
+alias gproject='gcloud config set project'
