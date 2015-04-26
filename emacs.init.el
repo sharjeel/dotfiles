@@ -1,20 +1,18 @@
-;;; init.el --- Where all the magic begins
-;;
-;; Part of the Emacs Starter Kit
-;;
-;; This is the first thing to get loaded.
-;;
+;; Look & Feel (This should be copied into main init.el for safe loading)
+
+;; (if (display-graphic-p)
+;;     (load-theme 'sanityinc-tomorrow-eighties nil nil)
+;;   (load-theme 'sanityinc-tomorrow-night nil nil))
+
+(ignore-errors
+  (require 'color-theme-sanityinc-tomorrow))
 
 (require 'package)
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-
-;; Look & Feel (This should be copied into main init.el for safe loading)
-; (if (display-graphic-p) 
-;     (load-theme (quote monokai) nil nil)
-;   (load-theme (quote solarized-dark) nil nil))
-
 
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
@@ -59,3 +57,16 @@
   (global-set-key (kbd "C-<") 'mc/1mark-previous-like-this)
   (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
   (global-set-key (kbd "C-.") 'mc/mark-more-like-this-extended) )
+
+; helm if available, otherwise ido
+(if (file-exists-p "~/.emacs.d/helm")
+    (progn
+      (add-to-list 'load-path (expand-file-name "~/emacs.d/helm"))
+      (require 'helm-config)
+      (helm-mode 1))
+  (ignore-errors
+    (smex-initialize)
+    (setq ido-ubiquitous t)))
+
+; Auto load disk changes
+(global-auto-revert-mode t)
