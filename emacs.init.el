@@ -4,9 +4,9 @@
 (package-initialize)
 
 ;; Look & Feel (This should be copied into main init.el for safe loading)
-; (if (display-graphic-p) 
-;     (load-theme (quote monokai) nil nil)
-;   (load-theme (quote solarized-dark) nil nil))
+;; (if (display-graphic-p)
+;;     (load-theme 'sanityinc-tomorrow-eighties nil nil)
+;;   (load-theme 'sanityinc-tomorrow-night nil nil))
 
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
