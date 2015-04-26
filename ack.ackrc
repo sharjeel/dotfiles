@@ -2,4 +2,5 @@
 --type-add=proto=.proto
 --type-add=build:is:BUILD
 --type-add=zsh=.zsh
+--type-add=yml=.yml
 
