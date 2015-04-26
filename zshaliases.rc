@@ -1,7 +1,7 @@
 # Aliases
-alias aliases='emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
-alias aliases-work='emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
-alias zshconf="emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
+alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
+alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
+alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias grpei='grep -i'
