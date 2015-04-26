@@ -68,12 +68,17 @@ explain () {
         [[ ( $explain_decision == "y" || $explain_decision == "Y" ) ]] && $BROWSER "http://explainshell.com/explain?cmd=$*" 
 }
 
+makeprint() {
+    make --eval="print-%: ; @echo \$*=\$(\$*)" print-$*
+}
+
 # There is only one default editor in the world
-if [ -n "$SSH_CLIENT" ]; then
-   export EDITOR="emacs --no-window"
-else
-   export EDITOR="emacs"
-fi
+export EDITOR="emacsclient -nw --alternate-editor=emacs"
+# if [ -n "$SSH_CLIENT" ]; then
+#    export EDITOR="emacs --no-window"
+# else
+#    export EDITOR="emacs"
+# fi
 
 export TERM=xterm-256color
 
@@ -135,6 +140,6 @@ e () {
   if [[ -n "$DISPLAY" || ! -n "$SSH_CLIENT" ]]; then
      emacsclient --no-wait --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
   else
-     emacsclient --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh"
+     emacsclient -nw --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
   fi
 }

@@ -2,5 +2,6 @@
 --type-add=proto=.proto
 --type-add=build:is:BUILD
 --type-add=zsh=.zsh
+--type-add=gcl=.gcl
 --type-add=yml=.yml
 
