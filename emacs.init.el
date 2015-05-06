@@ -1,12 +1,18 @@
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-initialize)
-
 ;; Look & Feel (This should be copied into main init.el for safe loading)
+
 ;; (if (display-graphic-p)
 ;;     (load-theme 'sanityinc-tomorrow-eighties nil nil)
 ;;   (load-theme 'sanityinc-tomorrow-night nil nil))
+
+(ignore-errors
+  (require 'color-theme-sanityinc-tomorrow))
+
+(require 'package)
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
 
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
@@ -64,7 +70,7 @@
           (lambda ()
                (setq tab-width 4)
                (setq tab-always-indent t)
-               (indent-tabs-mode  nil))) ;
+               (indent-tabs-mode  nil)))
  
 ;; Personal key preferences
 (global-set-key (kbd "C-z") 'undo-tree-undo)
@@ -87,6 +93,16 @@
   (key-chord-define-global "xb" 'ido-switch-buffer))
   ; (when (require 'evil nil 'no-error)
   ;  (key-chord-define-global "jk" 'evil-mode)))
+
+; helm if available, otherwise ido
+(if (file-exists-p "~/.emacs.d/helm")
+    (progn
+      (add-to-list 'load-path (expand-file-name "~/emacs.d/helm"))
+      (require 'helm-config)
+      (helm-mode 1))
+  (ignore-errors
+    (smex-initialize)
+    (setq ido-ubiquitous t)))
 
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
