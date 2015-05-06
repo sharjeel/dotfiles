@@ -10,8 +10,12 @@
 
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
-(setq visible-bell t)
-(menu-bar-mode t)
+(setq visible-bell t)               ; No beeps, bell on errors
+(menu-bar-mode t)                   ; Menu bar visible
+(tool-bar-mode -1)                  ; Toolbar disbaled
+(setq scroll-step 1)                ; Smooth scrolling
+(setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
+(setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -26,10 +30,18 @@
 (auto-fill-mode -1)
 (turn-off-auto-fill)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
+(electric-pair-mode 1)
+(delete-selection-mode 1); delete selected text when typing
+(global-linum-mode 1)
+(column-number-mode 1)
+(recentf-mode 1) ; keep a list of recently opened files
+(tabbar-mode 1)
+(modify-all-frames-parameters (list (cons 'cursor-type 'bar)))
  
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
 
+;; Zencoding mode
 (if (fboundp 'zencoding-mode)
     (zencoding-mode (quote toggle)) )
  
@@ -37,6 +49,14 @@
 (require 'yasnippet nil t)
 (if (fboundp 'yas-global-mode)
     (yas-global-mode 1) )
+(setq yas-snippet-dirs
+    (delete-if-not 'file-directory-p
+      '("~/.personalconfig/emacs/snippets/" ;; personal snippets collection
+	"~/.emacs.d/yasnippet-snippets"     ;; yasnippet snippets
+	"~/.emacs.d/work-snippets"          ;; machine specific snippets
+	"~/.emacs.d/snippets"               ;; misc
+        )))
+
  
 ;; Python related stuff
 (setq python-indent 4)
