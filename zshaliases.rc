@@ -31,8 +31,9 @@ alias tidyxml='tidy -xml -i -'
 alias ipy='ipython'
 alias notebook='ipython notebook'
 alias pysh='ipython --profile=pysh'
-alias einit='emacs --no-window --debug-init ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el'
+alias einit='emacs -nw ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el --debug-init'
 alias restartcinnamon='killall -HUP cinnamon'
+
 
 # Alias suffixes
 alias -s el=emacs
