@@ -8,6 +8,7 @@
   (require 'color-theme-sanityinc-tomorrow))
 
 (require 'package)
+(require 'cl)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
