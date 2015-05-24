@@ -122,7 +122,9 @@ source ~/.personalconfig/zshaliases.rc
 g () {
         if [ -z $1 ]; then
            cat ~/.sdirs
-           cat ~/.g4d
+           if [ -e ~/.g4d ]; then
+              cat ~/.g4d
+           fi
            return
         fi
 
