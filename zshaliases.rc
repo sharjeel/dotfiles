@@ -33,6 +33,7 @@ alias notebook='ipython notebook'
 alias pysh='ipython --profile=pysh'
 alias einit='emacs -nw ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el --debug-init'
 alias restartcinnamon='killall -HUP cinnamon'
+alias setdisplay='export DISPLAY=:0'
 
 
 # Alias suffixes

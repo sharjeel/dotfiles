@@ -22,6 +22,7 @@
 (setq scroll-step 1)                ; Smooth scrolling
 (setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
 (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
+(tabbar-mode 1)
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -41,16 +42,15 @@
 (global-linum-mode 1)
 (column-number-mode 1)
 (recentf-mode 1) ; keep a list of recently opened files
-(tabbar-mode 1)
 (modify-all-frames-parameters (list (cons 'cursor-type 'bar)))
- 
+
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
 
 ;; Zencoding mode
 (if (fboundp 'zencoding-mode)
     (zencoding-mode (quote toggle)) )
- 
+
 ;; Yasnippet
 (require 'yasnippet nil t)
 (if (fboundp 'yas-global-mode)
@@ -95,14 +95,16 @@
   ;  (key-chord-define-global "jk" 'evil-mode)))
 
 ; helm if available, otherwise ido
-(if (file-exists-p "~/.emacs.d/helm")
+(if (file-exists-p "~/.emacs.d/helm/helm-config.elc")
     (progn
-      (add-to-list 'load-path (expand-file-name "~/emacs.d/helm"))
+      (add-to-list 'load-path (expand-file-name "~/.emacs.d/helm"))
       (require 'helm-config)
       (helm-mode 1))
   (ignore-errors
-    (smex-initialize)
-    (setq ido-ubiquitous t)))
+    (progn
+      (smex-initialize)
+      (setq ido-ubiquitous t)
+      (ido-mode t))))
 
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
