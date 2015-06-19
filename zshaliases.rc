@@ -11,6 +11,7 @@ alias we='emacsclient -nw --alternate-editor=emacs'
 alias ew='emacsclient -nw'
 alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
+alias viewhtml='lynx -force-html'
 alias gbranches='git for-each-ref --sort=-committerdate refs/heads/'
 
 # Search aliases
