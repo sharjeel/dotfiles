@@ -107,6 +107,13 @@
       (setq ido-ubiquitous t)
       (ido-mode t))))
 
+;; powerline, if available
+(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
+(when (require 'powerline nil 'no-error)
+  (custom-set-faces
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))))
+
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
     (server-start))
