@@ -110,7 +110,7 @@ if [ -d $HOME/google-cloud-sdk/ ]; then
 fi
 
 
-export PATH=~/bin/:~/.personalconfig/bin/:$PATH
+export PATH=~/bin/:~/.local/bin/:~/.personalconfig/bin/:$PATH
 
 # Common bashmarks directories
 export DIR_persconf="$HOME/.personalconfig"
