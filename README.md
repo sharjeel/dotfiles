@@ -29,5 +29,4 @@ Since Ansible is not supported on Windows, included install.py script may be use
 
   [ansible]: http://www.ansibleworks.com/docs/gettingstarted.html
   [emacs version 24]: http://askubuntu.com/questions/149562/how-to-upgrade-to-emacs-24-1
-  [emacs starter kit]: https://github.com/technomancy/emacs-starter-kit
   [bashmarks]: https://github.com/sharjeel/bashmarks/
