@@ -6,14 +6,6 @@ This is a collection of my global dotfiles which remain same across my different
 
 * [Ansible] is used to to setup the files
 
-### Config file requirements
-
-The config files are based on following packages
-
-* [Emacs version 24] 
-* [Emacs starter kit]
-* [Bashmarks]
-
 ### Installation
 
 Clone the repo and run the ansible playbook::
@@ -28,5 +20,3 @@ Since Ansible is not supported on Windows, included install.py script may be use
 
 
   [ansible]: http://www.ansibleworks.com/docs/gettingstarted.html
-  [emacs version 24]: http://askubuntu.com/questions/149562/how-to-upgrade-to-emacs-24-1
-  [bashmarks]: https://github.com/sharjeel/bashmarks/
