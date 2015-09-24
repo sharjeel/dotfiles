@@ -1,6 +1,7 @@
 # Aliases
 alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
 alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
+alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
@@ -13,6 +14,7 @@ alias fif='~/.personalconfig/scripts.py fif'
 alias hilite='~/.personalconfig/scripts.py hilite'
 alias viewhtml='lynx -force-html'
 alias gbranches='git for-each-ref --sort=-committerdate refs/heads/'
+alias h="history"
 
 # Search aliases
 alias sjava='ack-grep -i --java'
@@ -36,7 +38,6 @@ alias einit='emacs -nw ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el --debu
 alias restartcinnamon='killall -HUP cinnamon'
 alias setdisplay='export DISPLAY=:0'
 
-
 # Alias suffixes
 alias -s el=emacs
 alias -s txt=$EDITOR
@@ -48,3 +49,16 @@ alias -s html=$BROWSER
 alias gcomp='gcloud compute'
 alias gvm='gcloud compute instances'
 alias gproject='gcloud config set project'
+
+
+binarydiff() {
+      meld <(hexdump -e '/1 "%02x\n"' -v $1) <(hexdump -v -e '/1 "%02x\n"' $1)
+}
+
+shellcode() {
+      hexdump -v -e '"\\""x" 1/1 "%02x" ""'
+}
+
+srvdir() {
+  python -c 'import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(("$1", $2), shs.SimpleHTTPRequestHandler).serve_forever()'
+}

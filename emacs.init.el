@@ -27,8 +27,8 @@
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
-	 (set-face-attribute 'default nil :font "Consolas 10")
-	 ; (set-face-attribute 'default nil :font "Droid Sans Mono 10")
+	 ; (set-face-attribute 'default nil :font "Consolas 10")
+	 (set-face-attribute 'default nil :font "Droid Sans Mono 10")
 	 (scroll-bar-mode 0) )
 	((eq system-type 'gnu/linux)
 	 (set-face-attribute 'default nil :font "DejaVu Sans Mono 10")
@@ -72,9 +72,18 @@
                (setq tab-width 4)
                (setq tab-always-indent t)
                (indent-tabs-mode  nil)))
+
+;; Don't ask about following symbolic link to git-controlled source file
+(setq vc-follow-symlinks t)
  
 ;; Personal key preferences
 (global-set-key (kbd "C-z") 'undo-tree-undo)
+
+;; Move across windows
+(global-set-key (kbd "C-c <left>") 'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>") 'windmove-up)
+(global-set-key (kbd "C-c <down>") 'windmove-down)
 
 ;; Multiple cursors
 (when (require 'multiple-cursors nil 'no-error)
@@ -92,6 +101,11 @@
   (key-chord-define-global "xo" 'other-window)
   (key-chord-define-global "xs" 'save-some-buffers)
   (key-chord-define-global "xb" 'ido-switch-buffer))
+  (key-chord-define-global "tw"
+   (lambda ()
+     (interactive)
+     (call-interactively 'kill-ring-save (this-command-keys-vector))
+     (call-interactively 'emamux:copy-kill-ring (this-command-keys-vector))))
   ; (when (require 'evil nil 'no-error)
   ;  (key-chord-define-global "jk" 'evil-mode)))
 
@@ -126,6 +140,11 @@
 ;; Automatically refresh reload unmodified buffers when buffers get changed
 (global-auto-revert-mode t)
 
+;; Splitting screen should be simpler
+(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x -") 'split-window-below)
+
+
 ;; evil
 (when (require 'evil nil 'no-error)
   (define-key evil-normal-state-map "\C-e" 'move-end-of-line)
@@ -159,6 +178,7 @@
   (define-key evil-normal-state-map "Q" 'call-last-kbd-macro)
   (define-key evil-visual-state-map "Q" 'call-last-kbd-macro)
   (define-key evil-normal-state-map (kbd "TAB") 'evil-undefine)
+  (define-key evil-insert-state-map "\C-z" 'evil-normal-state)
 
   (defun evil-undefine ()
     (interactive)
@@ -167,4 +187,3 @@
 
   (evil-mode 1)
   (setq evil-move-cursor-back nil))
-
