@@ -78,12 +78,24 @@
  
 ;; Personal key preferences
 (global-set-key (kbd "C-z") 'undo-tree-undo)
+(global-set-key (kbd "C-v") 'yank)
+(global-set-key (kbd "C-c C-v") 'scroll-up-command)
+(global-set-key (kbd "C-c M-v") 'scroll-down-command)
+
+;; Splitting screen should be simpler
+(global-set-key (kbd "C-x |") 'split-window-right)
+(global-set-key (kbd "C-x -") 'split-window-below)
 
 ;; Move across windows
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
+(global-set-key (kbd "C-x <C-left>") 'windmove-left)
+(global-set-key (kbd "C-x <C-right>") 'windmove-right)
+(global-set-key (kbd "C-x <C-up>") 'windmove-up)
+(global-set-key (kbd "C-x <C-down>") 'windmove-down)
+
+;; Ace-jump
+(when (require 'ace-jump-mode nil 'no-error)
+  (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+  (global-set-key (kbd "C-x SPC") 'ace-jump-mode-pop-mark))
 
 ;; Multiple cursors
 (when (require 'multiple-cursors nil 'no-error)
@@ -91,23 +103,28 @@
   (global-set-key (kbd "C-,") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/1mark-previous-like-this)
   (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-.") 'mc/mark-more-like-this-extended) )
+  (global-set-key (kbd "C-.") 'mc/mark-more-like-this-extended))
 
 ;; Key-chords
 (when (require 'keychord nil 'no-error)
   (key-chord-mode 1)
-  (key-chord-define-global "fj" 'smex)
+  (key-chord-define-global "`]" 'yank)
   (key-chord-define-global "cv" 'yank)
+  (key-chord-define-global "xj" 'smex)
   (key-chord-define-global "xo" 'other-window)
   (key-chord-define-global "xs" 'save-some-buffers)
-  (key-chord-define-global "xb" 'ido-switch-buffer))
-  (key-chord-define-global "tw"
-   (lambda ()
-     (interactive)
-     (call-interactively 'kill-ring-save (this-command-keys-vector))
-     (call-interactively 'emamux:copy-kill-ring (this-command-keys-vector))))
-  ; (when (require 'evil nil 'no-error)
-  ;  (key-chord-define-global "jk" 'evil-mode)))
+  (key-chord-define-global "xb" 'ido-switch-buffer)
+  (when (require 'emamux nil 'no-error)
+    (key-chord-define-global "tw"
+     (lambda ()
+       (interactive)
+       (call-interactively 'kill-ring-save (this-command-keys-vector))
+       (call-interactively 'emamux:copy-kill-ring (this-command-keys-vector)))))
+  (when (require 'evil nil 'no-error)
+    (key-chord-define-global "ev" 'evil-mode))
+  (when (require 'ace-jump-mode nil 'no-error)
+    (key-chord-define-global "fj" 'ace-jump-char-mode)))
+
 
 ; helm if available, otherwise ido
 (if (file-exists-p "~/.emacs.d/helm/helm-config.elc")
@@ -139,11 +156,6 @@
 
 ;; Automatically refresh reload unmodified buffers when buffers get changed
 (global-auto-revert-mode t)
-
-;; Splitting screen should be simpler
-(global-set-key (kbd "C-x |") 'split-window-right)
-(global-set-key (kbd "C-x -") 'split-window-below)
-
 
 ;; evil
 (when (require 'evil nil 'no-error)
@@ -187,3 +199,8 @@
 
   (evil-mode 1)
   (setq evil-move-cursor-back nil))
+
+(defun myinit ()
+  (interactive)
+  (find-file "~/.personalconfig/emacs.init.el"))
+
