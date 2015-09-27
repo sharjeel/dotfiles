@@ -81,6 +81,9 @@
 (global-set-key (kbd "C-v") 'yank)
 (global-set-key (kbd "C-c C-v") 'scroll-up-command)
 (global-set-key (kbd "C-c M-v") 'scroll-down-command)
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-c\C-k" 'kill-region)
 
 ;; Splitting screen should be simpler
 (global-set-key (kbd "C-x |") 'split-window-right)
