@@ -30,6 +30,7 @@
 (setq scroll-step 1)                ; Smooth scrolling
 (setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
 (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
+(scroll-bar-mode 0)
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -90,7 +91,8 @@
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
-; (global-set-key (kbd "C-M-w") (lambda () (interactive) (progn (kill-ring-save (region-beginning) (region-end)) (emamux:copy-kill-ring))))
+
+;; Tmux
 (defun emamux-copy-region ()
   (interactive)
   (if (region-active-p)
@@ -178,8 +180,8 @@
   (powerline-default-theme)
   (scroll-bar-mode -1)
   (custom-set-faces
- '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
- '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))))
+   '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+   '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))))
 
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
@@ -240,6 +242,10 @@
 
 ;;   (evil-mode 1)
 ;;   (setq evil-move-cursor-back nil))
+
+(defun init-file ()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
 
 (defun myinit ()
   (interactive)

@@ -41,5 +41,5 @@
     - name: Link tmux config
       file: state=link src={{ ansible_env.HOME }}/.personalconfig/tmux.conf dest={{ ansible_env.HOME }}/.tmux.conf
 
-
-
+    - name: Link ack-grep config
+      file: state=link src={{ ansible_env.HOME }}/.personalconfig/ack.ackrc dest={{ ansible_env.HOME }}/.ackrc

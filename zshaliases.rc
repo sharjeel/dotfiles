@@ -15,9 +15,11 @@ alias hilite='~/.personalconfig/scripts.py hilite'
 alias viewhtml='lynx -force-html'
 alias gbranches='git for-each-ref --sort=-committerdate refs/heads/'
 alias h="history"
+alias map=" tr '\n' '\0' | xargs -0 -n1 "
 
 # Search aliases
 alias sjava='ack-grep -i --java'
+alias sjs='ack-grep -i --js'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 alias syaml='ack-grep -i --yaml'
