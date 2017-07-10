@@ -4,4 +4,5 @@
 --type-add=zsh=.zsh
 --type-add=gcl=.gcl
 --type-add=yml=.yml
-
+--type-add=iml=.iml
+--type-add=gradle=.gradle

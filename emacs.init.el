@@ -59,9 +59,6 @@
     (zencoding-mode (quote toggle)) )
 
 ;; Yasnippet
-(require 'yasnippet nil t)
-(if (fboundp 'yas-global-mode)
-    (yas-global-mode 1) )
 (setq yas-snippet-dirs
     (delete-if-not 'file-directory-p
       '("~/.personalconfig/emacs/snippets/" ;; personal snippets collection
@@ -69,7 +66,9 @@
 	"~/.emacs.d/work-snippets"          ;; machine specific snippets
 	"~/.emacs.d/snippets"               ;; misc
         )))
-
+(require 'yasnippet nil t)
+(if (fboundp 'yas-global-mode)
+    (yas-global-mode 1) )
  
 ;; Python related stuff
 (setq python-indent 4)
@@ -87,9 +86,9 @@
 (global-set-key (kbd "C-v") 'yank)
 (global-set-key (kbd "C-c C-v") 'scroll-up-command)
 (global-set-key (kbd "C-c M-v") 'scroll-down-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-c\C-k" 'kill-region)
+;(global-set-key "\C-w" 'backward-kill-word)
+;(global-set-key "\C-x\C-k" 'kill-region)
+;(global-set-key "\C-c\C-k" 'kill-region)
 ; (global-set-key (kbd "C-M-w") (lambda () (interactive) (progn (kill-ring-save (region-beginning) (region-end)) (emamux:copy-kill-ring))))
 (defun emamux-copy-region ()
   (interactive)

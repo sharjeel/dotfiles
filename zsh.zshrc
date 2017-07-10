@@ -40,6 +40,11 @@ insert_apt_get_install () { zle beginning-of-line; zle -U "sudo apt-get install 
 zle -N insert-apt-get-install insert_apt_get_install
 bindkey "^[i" insert-apt-get-install
 
+# Alt-h inserts history search
+insert_history_grep () { zle beginning-of-line; zle -U "history | grepi " }
+zle -N insert-history-grep insert_history_grep
+bindkey "^[h" insert-history-grep
+
 # Al-z inserts glob
 insert_glob () { zle -U "**/" }
 zle -N insert-glob insert_glob
@@ -115,8 +120,6 @@ export PATH=~/bin/:~/.local/bin/:~/.personalconfig/bin/:$PATH
 # Common bashmarks directories
 export DIR_persconf="$HOME/.personalconfig"
 
-# Load personal aliases
-source ~/.personalconfig/zshaliases.rc
 
 # g aliased intelligently to bashmark get or git
 g () {
@@ -144,4 +147,17 @@ e () {
   else
      emacsclient -nw --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
   fi
+}
+
+# Work or machine specific aliases
+[[ -e ~/.xrc-work ]] && source ~/.xrc-work
+[[ -e ~/.zshrc-work ]] && source ~/.zshrc-work
+
+# Prefer to have .zshenv load ZSH aliases so they are available in IPython as well
+# if not, load them here.
+if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.personalconfig/zshaliases.rc" ~/.zshenv)) {
+  [[ -e ~/.personalconfig/zshaliases.rc ]] && source ~/.personalconfig/zshaliases.rc
+}
+if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.zshaliases-work" ~/.zshenv)) {
+  [[ -e ~/.zshaliases-work ]] && source ~/.zshaliases-work
 }
