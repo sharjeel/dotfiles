@@ -16,33 +16,33 @@
       register: userhome
 
     - name: Setup personal emacs configuration
-      lineinfile: dest={{ userhome.stdout }}/.emacs.d/init.el state=present create=yes insertbefore='BOF'
+      lineinfile: dest={{ ansible_env.HOME }}/.emacs.d/init.el state=present create=yes insertbefore='BOF'
                   regexp='\(load-file \(expand-file-name ".*"\)\); Customized config'
                   line='(load-file (expand-file-name "{{ item }}")); Customized config'
       with_items:
-         userhome.stdout + '/.personalconfig/emacs.init.el'
+         - "{{ ansible_env.HOME }}/.personalconfig/emacs.init.el"
 
     - name: Setup personal bashmarks
-      lineinfile: dest={{ userhome.stdout }}/.sdirs state=present create=yes insertafter='EOF'
+      lineinfile: dest={{ ansible_env.HOME }}/.sdirs state=present create=yes insertafter='EOF'
                   regexp='^source ' line="source {{ item }}"
       with_items:
-         userhome.stdout + '/.personalconfig/bashmarks.sdirs'
+         - "{{ ansible_env.HOME }}/.personalconfig/bashmarks.sdirs"
 
     - name: Setup personal zshrc
-      lineinfile: dest={{ userhome.stdout }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
+      lineinfile: dest={{ ansible_env.HOME }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
                   regexp='^source.*zsh.zshrc' line="source {{ item }}"
       with_items:
-          userhome.stdout + '/.personalconfig/zsh.zshrc'
+          - "{{ ansible_env.HOME }}/.personalconfig/zsh.zshrc"
 
     - name: Link oh-my-zsh theme
-      file: state=link src={{ userhome.stdout }}/.personalconfig/sharjeel.zsh-theme dest={{ userhome.stdout }}/.oh-my-zsh/themes/sharjeel.zsh-theme
+      file: state=link src={{ ansible_env.HOME }}/.personalconfig/sharjeel.zsh-theme dest={{ ansible_env.HOME }}/.oh-my-zsh/themes/sharjeel.zsh-theme
 
     - name: Set theme
-      lineinfile: dest={{ userhome.stdout }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
+      lineinfile: dest={{ ansible_env.HOME }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
                   regexp='^ZSH_THEME=' line='ZSH_THEME="sharjeel"'
 
     - name: Link tmux config
-      file: state=link src={{ userhome.stdout }}/.personalconfig/tmux.conf dest={{ userhome.stdout }}/.tmux.conf
+      file: state=link src={{ ansible_env.HOME }}/.personalconfig/tmux.conf dest={{ ansible_env.HOME }}/.tmux.conf
 
-
-
+    - name: Link ack-grep config
+      file: state=link src={{ ansible_env.HOME }}/.personalconfig/ack.ackrc dest={{ ansible_env.HOME }}/.ackrc

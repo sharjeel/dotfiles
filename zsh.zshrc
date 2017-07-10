@@ -120,6 +120,8 @@ export PATH=~/bin/:~/.local/bin/:~/.personalconfig/bin/:$PATH
 # Common bashmarks directories
 export DIR_persconf="$HOME/.personalconfig"
 
+# Load personal aliases
+source ~/.personalconfig/zshaliases.rc
 
 # g aliased intelligently to bashmark get or git
 g () {

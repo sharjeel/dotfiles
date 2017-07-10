@@ -54,5 +54,3 @@ function host_prompt {
 }
 
 PROMPT='%{$fg_bold[red]%}%n@%{$hostcolor%}$(host_prompt) %{$fg_bold[blue]%}%(!.%1~.%~) $(prompt_char)%{$reset_color%} '
-
-
