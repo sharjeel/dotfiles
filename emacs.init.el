@@ -70,7 +70,6 @@
 	"~/.emacs.d/work-snippets"          ;; machine specific snippets
 	"~/.emacs.d/snippets"               ;; misc
         )))
-
  
 ;; Python related stuff
 (setq python-indent 4)

@@ -5,4 +5,5 @@
 --type-add=gcl=.gcl
 --type-add=yml=.yml
 --type-add=ts=.ts
-
+--type-add=iml=.iml
+--type-add=gradle=.gradle

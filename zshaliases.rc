@@ -1,12 +1,15 @@
 # Aliases
 alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
-alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
+alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshaliases-work; source ~/.zshaliases-work; echo "Work aliases reloaded"'
+alias waliases='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
+alias aw='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias grpei='grep -i'
 alias grpe='grep'
+alias hgrep'history | grep -i'
 alias wemacs='emacs -nw'
 alias we='emacsclient -nw --alternate-editor=emacs'
 alias ew='emacsclient -nw'
@@ -28,10 +31,13 @@ alias sbuild='ack-grep -i --build'
 alias sproto='ack-grep -i --proto'
 alias sgcl='ack-grep -i --gcl'
 
+alias hex='hexdump -C'
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias killsuggest="pkill -f 'completion-server.zsh'"
-alias logrep='adb logcat | grep -i'
+alias logrep='adb logcat | stdbuf -i0 -o0 -e0 grep -i'
+alias logerep='adb logcat | stdbuf -i0 -o0 -e0 egrep -i'
 alias logclear='adb logcat -c'
+alias akb='adb shell input text'
 alias tidyxml='tidy -xml -i -'
 alias ipy='ipython'
 alias notebook='ipython notebook'
@@ -46,6 +52,10 @@ alias -s txt=$EDITOR
 alias -s rc=$EDITOR
 alias -s conf=$EDITOR
 alias -s html=$BROWSER
+
+if which trash > /dev/null 2>&1; then
+    alias rm=trash
+fi
 
 # GCloud SDK
 alias gcomp='gcloud compute'
@@ -63,4 +73,29 @@ shellcode() {
 
 srvdir() {
   python -c 'import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(("$1", $2), shs.SimpleHTTPRequestHandler).serve_forever()'
+}
+
+groot () {
+  cd $(git rev-parse --show-toplevel)	
+  if  [ -d google3 ]; then
+    cd google3
+  fi
+}
+
+tests() {
+  if [ $PWD =~ ".*javatests.*" ]; then
+    cd javatests java
+  else
+    cd java javatests
+  fi	
+}
+
+sshagent() {
+  if [[ -e ~/.ssh-agent.pid && -e /proc/$(cat ~/.ssh-agent.pid) ]]; then
+    export SSH_AUTH_SOCK=/tmp/ssh-agent
+  else
+    eval `ssh-agent -a /tmp/ssh-agent`
+    echo $SSH_AGENT_PID > ~/.ssh-agent.pid
+    ssh-add
+  fi
 }

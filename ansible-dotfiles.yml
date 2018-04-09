@@ -12,6 +12,9 @@
     - name: Checkout this repo in home/.personalconfig
       git: repo=git://github.com/sharjeel/dotfiles.git dest=~/.personalconfig update=no
 
+    - shell: echo $HOME
+      register: userhome
+
     - name: Setup personal emacs configuration
       lineinfile: dest={{ ansible_env.HOME }}/.emacs.d/init.el state=present create=yes insertbefore='BOF'
                   regexp='\(load-file \(expand-file-name ".*"\)\); Customized config'
