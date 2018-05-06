@@ -93,3 +93,13 @@ tests() {
     cd java javatests
   fi	
 }
+
+sshagent() {
+  if [[ -e ~/.ssh-agent.pid && -e /proc/$(cat ~/.ssh-agent.pid) ]]; then
+    export SSH_AUTH_SOCK=/tmp/ssh-agent
+  else
+    eval `ssh-agent -a /tmp/ssh-agent`
+    echo $SSH_AGENT_PID > ~/.ssh-agent.pid
+    ssh-add
+  fi
+}
