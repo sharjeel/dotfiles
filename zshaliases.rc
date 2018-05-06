@@ -19,6 +19,9 @@ alias viewhtml='lynx -force-html'
 alias gbranches='git for-each-ref --sort=-committerdate refs/heads/'
 alias h="history"
 alias map=" tr '\n' '\0' | xargs -0 -n1 "
+alias ack-grep=ack
+alias jt="cd java javatests"
+alias j="cd javatests java"
 
 # Search aliases
 alias sjava='ack-grep -i --java'
@@ -38,6 +41,7 @@ alias logrep='adb logcat | stdbuf -i0 -o0 -e0 grep -i'
 alias logerep='adb logcat | stdbuf -i0 -o0 -e0 egrep -i'
 alias logclear='adb logcat -c'
 alias akb='adb shell input text'
+alias adbcpu='adb shell getprop ro.product.cpu.abilist'
 alias tidyxml='tidy -xml -i -'
 alias ipy='ipython'
 alias notebook='ipython notebook'
@@ -83,7 +87,7 @@ groot () {
 }
 
 tests() {
-  if [ $PWD =~ ".*javatests.*" ]; then
+  if [[ $PWD =~ ".*javatests.*" ]]; then
     cd javatests java
   else
     cd java javatests

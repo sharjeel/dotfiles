@@ -60,6 +60,7 @@ bindkey "^X^L" insert-last-command-output
 
 # cd into directory of a file
 cdto () { cd `dirname $1`; }
+csto () { cdto $(ack-grep --max-count=1 -l --local $1) }
 # git diff between branches
 gitdiff () { git diff $2 $1:$2; }
 # show recent git branches
@@ -88,9 +89,9 @@ export EDITOR="emacsclient -nw --alternate-editor=emacs"
 export TERM=xterm-256color
 
 # Enable zsh-autosuggestions
-if [ -e ~/.zsh-autosuggestions/autosuggestions.zsh ]; then
+if [ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
    # Setup zsh-autosuggestions
-   source ~/.zsh-autosuggestions/autosuggestions.zsh
+   source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
 
    # Enable autosuggestions automatically
    zle-line-init() {

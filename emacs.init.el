@@ -31,6 +31,7 @@
 (setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
 (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
 (scroll-bar-mode 0)
+(save-place-mode 1)
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -61,8 +62,6 @@
 
 ;; Yasnippet
 (require 'yasnippet nil t)
-(if (fboundp 'yas-global-mode)
-    (yas-global-mode 1) )
 (setq yas-snippet-dirs
     (delete-if-not 'file-directory-p
       '("~/.personalconfig/emacs/snippets/" ;; personal snippets collection
@@ -70,6 +69,8 @@
 	"~/.emacs.d/work-snippets"          ;; machine specific snippets
 	"~/.emacs.d/snippets"               ;; misc
         )))
+(if (fboundp 'yas-global-mode)
+    (yas-global-mode 1) )
  
 ;; Python related stuff
 (setq python-indent 4)
@@ -87,9 +88,6 @@
 (global-set-key (kbd "C-v") 'yank)
 (global-set-key (kbd "C-c C-v") 'scroll-up-command)
 (global-set-key (kbd "C-c M-v") 'scroll-down-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-c\C-k" 'kill-region)
 
 ;; Tmux
 (defun emamux-copy-region ()
@@ -161,17 +159,32 @@
     (key-chord-define-global "fj" 'ace-jump-char-mode)))
 
 
-; helm if available, otherwise ido
-(if (file-exists-p "~/.emacs.d/helm/helm-config.elc")
-    (progn
-      (add-to-list 'load-path (expand-file-name "~/.emacs.d/helm"))
-      (require 'helm-config)
-      (helm-mode 1))
-  (ignore-errors
-    (progn
-      (smex-initialize)
-      (setq ido-ubiquitous t)
-      (ido-mode t))))
+; ivy, helm, or ido
+(cond
+  ((ivy-mode 1) (progn
+                   (setq ivy-use-virtual-buffers t)
+                   (setq enable-recursive-minibuffers t)
+                   ;; (global-set-key "\C-s" 'swiper)
+                   (global-set-key (kbd "C-c C-r") 'ivy-resume)
+                   (global-set-key (kbd "<f6>") 'ivy-resume)
+                   (global-set-key (kbd "M-x") 'counsel-M-x)
+                   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+                   ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+                   ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+                   ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
+                   ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+                   ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+                   (global-set-key (kbd "C-c g") 'counsel-git)
+                   (global-set-key (kbd "C-c j") 'counsel-git-grep)
+                   (global-set-key (kbd "C-c k") 'counsel-ag)
+                   (global-set-key (kbd "C-x l") 'counsel-locate)
+                   (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+                   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)))
+  ((file-exists-p "~/.emacs.d/helm/helm-config.elc") (progn
+                                                       (add-to-list 'load-path (expand-file-name "~/.emacs.d/helm"))
+                                                       (require 'helm-config)
+                                                       (helm-mode 1)))
+  (t (ido-mode t)))
 
 ;; powerline, if available
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
@@ -249,3 +262,8 @@
 (defun myinit ()
   (interactive)
   (find-file "~/.personalconfig/emacs.init.el"))
+
+(defun init ()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+  
