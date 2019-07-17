@@ -1,5 +1,7 @@
-# Theme
-ZSH_THEME="sharjeel"
+# Use Prezto
+if [[ -d ~/.zprezto ]]; then
+  source ~/.zprezto/init.sh
+fi 
 
 # Enable Bashmarks
 source ~/.local/bin/bashmarks.sh
