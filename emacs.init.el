@@ -25,13 +25,14 @@
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq visible-bell t)               ; No beeps, bell on errors
-(menu-bar-mode t)                   ; Menu bar visible
-(tool-bar-mode -1)                  ; Toolbar disbaled
 (setq scroll-step 1)                ; Smooth scrolling
-(setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
-(setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
-(scroll-bar-mode 0)
 (save-place-mode 1)
+(ignore-errors
+  (scroll-bar-mode 0)
+  (tool-bar-mode -1)                  ; Toolbar disbaled
+  (setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
+  (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
+  (menu-bar-mode t))                   ; Menu bar visible
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -48,7 +49,7 @@
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
 (electric-pair-mode 1)
 (delete-selection-mode 1); delete selected text when typing
-(global-linum-mode 1)
+; (global-linum-mode 1)
 (column-number-mode 1)
 (recentf-mode 1) ; keep a list of recently opened files
 (modify-all-frames-parameters (list (cons 'cursor-type 'bar)))
@@ -161,7 +162,8 @@
 
 ; ivy, helm, or ido
 (cond
-  ((ivy-mode 1) (progn
+ ((fboundp 'ivy-mode) (progn
+		   (ivy-mode 1)
                    (setq ivy-use-virtual-buffers t)
                    (setq enable-recursive-minibuffers t)
                    ;; (global-set-key "\C-s" 'swiper)

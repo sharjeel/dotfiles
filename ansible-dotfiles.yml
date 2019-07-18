@@ -33,6 +33,17 @@
                   regexp='^source.*zsh.zshrc' line="source {{ item }}"
       with_items:
           - "{{ ansible_env.HOME }}/.personalconfig/zsh.zshrc"
+      tags: [zsh]
+
+    - name: Set prezto theme
+      lineinfile:
+          dest: "{{ ansible_env.HOME }}/.zpreztorc"
+          state: present
+          create: no
+          insertafter: 'EOF'
+          regexp: '^zstyle.*theme.*'
+          line: "zstyle ':prezto:module:prompt' theme 'skwp'"
+      tags: [zsh, zprezto]
 
     - name: Link tmux config
       file: state=link src={{ ansible_env.HOME }}/.personalconfig/tmux.conf dest={{ ansible_env.HOME }}/.tmux.conf

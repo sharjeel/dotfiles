@@ -1,8 +1,3 @@
-# Use Prezto
-if [[ -d ~/.zprezto ]]; then
-  source ~/.zprezto/init.sh
-fi 
-
 # Enable Bashmarks
 source ~/.local/bin/bashmarks.sh
 
@@ -95,12 +90,6 @@ if [ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
    # Setup zsh-autosuggestions
    source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
 
-   # Enable autosuggestions automatically
-   zle-line-init() {
-      zle autosuggest-start
-   }
-   zle -N zle-line-init
-
    # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
    # zsh-autosuggestions is designed to be unobtrusive)
    bindkey '^T' autosuggest-toggle
@@ -166,3 +155,15 @@ if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.personalconfig/zshaliases
 if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.zshaliases-work" ~/.zshenv)) {
   [[ -e ~/.zshaliases-work ]] && source ~/.zshaliases-work
 }
+
+# Use Prezto
+if [[ -d ~/.zprezto ]]; then
+  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
+    if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
+      ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+    fi
+  done
+  source ~/.zprezto/init.zsh
+  zstyle ':prezto:module:prompt' theme 'skwp'
+fi 
+
