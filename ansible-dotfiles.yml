@@ -29,17 +29,21 @@
          - "{{ ansible_env.HOME }}/.personalconfig/bashmarks.sdirs"
 
     - name: Setup personal zshrc
-      lineinfile: dest={{ ansible_env.HOME }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
+      lineinfile: dest={{ ansible_env.HOME }}/.zshrc state=present create=yes insertafter='EOF'
                   regexp='^source.*zsh.zshrc' line="source {{ item }}"
       with_items:
           - "{{ ansible_env.HOME }}/.personalconfig/zsh.zshrc"
+      tags: [zsh]
 
-    - name: Link oh-my-zsh theme
-      file: state=link src={{ ansible_env.HOME }}/.personalconfig/sharjeel.zsh-theme dest={{ ansible_env.HOME }}/.oh-my-zsh/themes/sharjeel.zsh-theme
-
-    - name: Set theme
-      lineinfile: dest={{ ansible_env.HOME }}/.zshrc state=present create=yes insertafter='source.*oh-my-zsh\.sh'
-                  regexp='^ZSH_THEME=' line='ZSH_THEME="sharjeel"'
+    - name: Set prezto theme
+      lineinfile:
+          dest: "{{ ansible_env.HOME }}/.zpreztorc"
+          state: present
+          create: no
+          insertafter: 'EOF'
+          regexp: '^zstyle.*theme.*'
+          line: "zstyle ':prezto:module:prompt' theme 'skwp'"
+      tags: [zsh, zprezto]
 
     - name: Link tmux config
       file: state=link src={{ ansible_env.HOME }}/.personalconfig/tmux.conf dest={{ ansible_env.HOME }}/.tmux.conf

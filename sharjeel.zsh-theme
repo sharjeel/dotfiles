@@ -44,13 +44,14 @@ parse_git_dirty() {
 }
 
 function host_prompt {
-             IS_GIT=$(command git rev-parse --is-inside-work-tree 2> /dev/null)
-             if [[ -n $IS_GIT ]]
-             then
-                echo "$(git_prompt_info)"
-             else
-                echo "%m"
-             fi
+  IS_GIT=$(command git rev-parse --is-inside-work-tree 2> /dev/null)
+  if [[ -n $IS_GIT ]]
+  then
+    echo "$(git_prompt_info)"
+  else
+    # echo "%m"
+    hostname | cut -d"." -f2
+  fi
 }
 
-PROMPT='%{$fg_bold[red]%}%n@%{$hostcolor%}$(host_prompt) %{$fg_bold[blue]%}%(!.%1~.%~) $(prompt_char)%{$reset_color%} '
+PROMPT='%{$fg_bold[red]%}%n@%{$hostcolor%}$(host_prompt) %{$fg_bold[blue]%}$(dir_prompt) $(prompt_char)%{$reset_color%} '

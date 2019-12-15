@@ -26,9 +26,13 @@
 (menu-bar-mode t)                   ; Menu bar visible
 (tool-bar-mode -1)                  ; Toolbar disbaled
 (setq scroll-step 1)                ; Smooth scrolling
-(setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
-(setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
-(scroll-bar-mode 0)
+(save-place-mode 1)
+(ignore-errors
+  (scroll-bar-mode 0)
+  (tool-bar-mode -1)                  ; Toolbar disbaled
+  (setq mouse-wheel-follow-mouse 't)  ; scroll window under mouse
+  (setq mouse-wheel-progressive-speed nil) ; don't accelerate scrolling
+  (menu-bar-mode t))                   ; Menu bar visible
 
 (ignore-errors
   (cond ((eq system-type 'windows-nt)
@@ -266,3 +270,8 @@
 (defun myinit ()
   (interactive)
   (find-file "~/.personalconfig/emacs.init.el"))
+
+(defun init ()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+  
