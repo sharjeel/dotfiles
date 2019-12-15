@@ -181,7 +181,7 @@
       (ido-mode t))))
 
 ;; powerline, if available
-(add-to-list 'load-path "~/.emacs.d/vendor/emacs-powerline")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/vendor/emacs-powerline"))
 (when (require 'powerline nil 'no-error)
   (powerline-default-theme)
   (scroll-bar-mode -1)
@@ -199,6 +199,10 @@
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+
+;; misc, directory to put in misc stuff
+(if (file-exists-p "~/.emacs.d/misc/")
+    (add-to-list 'load-path (expand-file-name "~/.emacs.d/misc/")))
 
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
@@ -263,6 +267,10 @@
 ;;   (evil-mode 1)
 ;;   (setq evil-move-cursor-back nil))
 
+(defun zsh ()
+  (interactive)
+  (term "/bin/zsh"))
+
 (defun init-file ()
   (interactive)
   (find-file "~/.emacs.d/init.el"))
@@ -275,3 +283,18 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
   
+(defun work-init ()
+  (interactive)
+  (find-file "~/.emacs.d/emacs-init-work.el"))
+
+;; For iterm
+(setq x-select-enable-clipboard t)
+(define-key input-decode-map "\e\eOA" [(meta up)])
+(define-key input-decode-map "\e\eOB" [(meta down)])
+
+;; Load work related files
+(let
+    ((work-file (expand-file-name "~/.emacs.d/emacs-init-work.el")))
+  (if (file-exists-p work-file)
+      (load-file work-file))); Customized config
+

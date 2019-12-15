@@ -96,8 +96,9 @@ if [ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
    # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
    # zsh-autosuggestions is designed to be unobtrusive)
    bindkey '^T' autosuggest-toggle
-   export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=237
-   export AUTOSUGGESTION_HIGHLIGHT_CURSOR=0
+   # export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=237
+   # export AUTOSUGGESTION_HIGHLIGHT_CURSOR=0
+   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=237'
 fi
 
 # gcloud

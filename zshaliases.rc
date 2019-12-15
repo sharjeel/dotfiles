@@ -23,6 +23,7 @@ alias map=" tr '\n' '\0' | xargs -0 -n1 "
 alias ack-grep=ack
 alias jt="cd java javatests"
 alias j="cd javatests java"
+alias lastfield="grep -o '[^ ]*$'"
 
 # Search aliases
 alias sjava='ack-grep -i --java'
@@ -130,7 +131,7 @@ groot () {
   fi
 }
 
-tests() {
+tests () {
   if [[ $PWD =~ ".*javatests.*" ]]; then
     cd javatests java
   else
@@ -138,7 +139,7 @@ tests() {
   fi	
 }
 
-sshagent() {
+sshagent () {
   if [[ -e ~/.ssh-agent.pid && -e /proc/$(cat ~/.ssh-agent.pid) ]]; then
     export SSH_AUTH_SOCK=~/tmp/ssh-agent
   else
@@ -151,6 +152,10 @@ sshagent() {
 sshadd () {
   sshagent
   ssh-add -t 10000 "${@: -1}"
+}
+
+adbsetlog () {
+  adb shell setprop log.tag.$1 $2
 }
 
 ediff () {

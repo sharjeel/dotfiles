@@ -54,4 +54,8 @@ function host_prompt {
   fi
 }
 
+function dir_prompt {
+    echo "%(!.%1~.%~)"
+}
+
 PROMPT='%{$fg_bold[red]%}%n@%{$hostcolor%}$(host_prompt) %{$fg_bold[blue]%}$(dir_prompt) $(prompt_char)%{$reset_color%} '
