@@ -17,9 +17,7 @@
 (require 'package)
 (require 'cl)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (setq initial-scratch-message "")
@@ -41,13 +39,15 @@
 	 (set-face-attribute 'default nil :font "DejaVu Sans Mono 10")
 	 )))
 
+;; C-c left, C-c right for winner undo/redo
+(winner-mode 1)
+
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (auto-fill-mode -1)
 (turn-off-auto-fill)
 (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
 (electric-pair-mode 1)
 (delete-selection-mode 1); delete selected text when typing
-(global-linum-mode 1)
 (column-number-mode 1)
 (recentf-mode 1) ; keep a list of recently opened files
 (modify-all-frames-parameters (list (cons 'cursor-type 'bar)))
@@ -66,11 +66,17 @@
 (setq yas-snippet-dirs
     (delete-if-not 'file-directory-p
       '("~/.personalconfig/emacs/snippets/" ;; personal snippets collection
-	"~/.emacs.d/yasnippet-snippets"     ;; yasnippet snippets
+	"~/.emacs.d/yasnippet-snippets/snippets/"     ;; yasnippet snippets
 	"~/.emacs.d/work-snippets"          ;; machine specific snippets
 	"~/.emacs.d/snippets"               ;; misc
         )))
- 
+
+(defun snippets ()
+  (interactive)
+  (let ((choice (car (completing-read-multiple "Directory: " yas-snippet-dirs))))
+    (find-file choice)))
+
+
 ;; Python related stuff
 (setq python-indent 4)
 (add-hook 'python-mode-hook
@@ -87,9 +93,6 @@
 (global-set-key (kbd "C-v") 'yank)
 (global-set-key (kbd "C-c C-v") 'scroll-up-command)
 (global-set-key (kbd "C-c M-v") 'scroll-down-command)
-(global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-c\C-k" 'kill-region)
 
 ;; Tmux
 (defun emamux-copy-region ()
@@ -182,6 +185,17 @@
    '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
    '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))))
 
+;; web-mode
+(when (require 'web-mode nil 'no-error)
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
+
 ;; Automatically start server if in graphical mode
 (if (display-graphic-p)  
     (server-start))
@@ -198,6 +212,9 @@
 
 ;; Automatically refresh reload unmodified buffers when buffers get changed
 (global-auto-revert-mode t)
+
+;; ediff
+(setq ediff-split-window-function 'split-window-horizontally)
 
 ;; evil
 ;; (when (require 'evil nil 'no-error)
