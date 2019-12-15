@@ -1,10 +1,11 @@
-# Aliases
+
 alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
 alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshaliases-work; source ~/.zshaliases-work; echo "Work aliases reloaded"'
 alias waliases='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias aw='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
+alias sshconf="$EDITOR ~/.ssh/config"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias grpei='grep -i'
@@ -23,6 +24,7 @@ alias map=" tr '\n' '\0' | xargs -0 -n1 "
 # Search aliases
 alias sjava='ack-grep -i --java'
 alias sjs='ack-grep -i --js'
+alias scc='ack-grep -i --cc'
 alias spython='ack-grep -i --python'
 alias sxml='ack-grep -i --xml'
 alias syaml='ack-grep -i --yaml'
@@ -46,12 +48,17 @@ alias einit='emacs -nw ~/.emacs.d/init.el ~/.personalconfig/emacs.init.el --debu
 alias restartcinnamon='killall -HUP cinnamon'
 alias setdisplay='export DISPLAY=:0'
 
+alias en='source env/bin/activate'
+
 # Alias suffixes
 alias -s el=emacs
 alias -s txt=$EDITOR
 alias -s rc=$EDITOR
 alias -s conf=$EDITOR
 alias -s html=$BROWSER
+
+# Alias
+alias tmux="tmux -2"
 
 if which trash > /dev/null 2>&1; then
     alias rm=trash
@@ -62,6 +69,43 @@ alias gcomp='gcloud compute'
 alias gvm='gcloud compute instances'
 alias gproject='gcloud config set project'
 
+# g aliased intelligently to bashmark get or git
+g () {
+  if [ -z $1 ]; then
+    cat ~/.sdirs
+    if [ -e ~/.g4d ]; then
+      cat ~/.g4d
+    fi
+    return
+  fi
+
+  source $SDIRS
+  BASHMARK="$(eval $(echo echo $(echo \$DIR_$1)))"
+  if [ -e $BASHMARK ]; then
+    cd $BASHMARK
+  else
+    git "$@"
+  fi
+}
+
+# e for editing with emacs in a single window
+e () {
+  if [[ -n "$DISPLAY" || ! -n "$SSH_CLIENT" ]]; then
+     emacsclient --no-wait --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
+  else
+     emacsclient -nw --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
+  fi
+}
+
+# d for docker, unless without arguments
+unalias d 2>/dev/null
+d () {
+  if [ -z $1 ]; then
+    dirs -v | head -10
+  else
+    docker "$@"
+  fi
+}
 
 binarydiff() {
       meld <(hexdump -e '/1 "%02x\n"' -v $1) <(hexdump -v -e '/1 "%02x\n"' $1)
@@ -92,10 +136,36 @@ tests() {
 
 sshagent() {
   if [[ -e ~/.ssh-agent.pid && -e /proc/$(cat ~/.ssh-agent.pid) ]]; then
-    export SSH_AUTH_SOCK=/tmp/ssh-agent
+    export SSH_AUTH_SOCK=~/tmp/ssh-agent
   else
-    eval `ssh-agent -a /tmp/ssh-agent`
+    eval `ssh-agent -a ~/tmp/ssh-agent`
     echo $SSH_AGENT_PID > ~/.ssh-agent.pid
     ssh-add
   fi
+}
+
+sshadd () {
+  sshagent
+  ssh-add -t 10000 "${@: -1}"
+}
+
+ediff () {
+  we --eval "(ediff-files \"$1\" \"$2\")"
+}
+
+watchfiles () {
+  # e.g. watchfiles /etc/nginx/ sudo service nginx restart
+  python -m pyinotify -r -e IN_MODIFY,IN_CLOSE_WRITE,IN_CREATE -v $1 -c \"${@:2}\"
+}
+
+did () {
+  docker ps | grep $1 | head -n1 | awk '{ print $1 }'
+}
+
+dshell () {
+  docker exec -it $1 bash
+}
+
+pyf () {
+  meld $1 <(yapf $1)
 }
