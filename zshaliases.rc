@@ -1,4 +1,4 @@
-
+alias apple-fn="sudo sh -c 'echo 2 > /sys/module/hid_apple/parameters/fnmode'"
 alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
 alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshaliases-work; source ~/.zshaliases-work; echo "Work aliases reloaded"'
 alias waliases='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
@@ -177,4 +177,32 @@ dshell () {
 
 pyf () {
   meld $1 <(yapf $1)
+}
+
+tmulti () {
+  # Launches several commands in a tmux window with multiple tiled panes
+  # e.g. tmulti "watch -g free" "tail -f /var/log/syslog" "dmesg -w" "python -m SimpleHTTPServer 8000"
+  #      opens up a new window in tmux w with multiple panes, each running one of the commands above.
+  window="cmds$#"
+
+  if tmux ls > /dev/null 2>&1; then
+    session=$(tmux ls | awk '{ gsub(":", "", $1); print $1; }')
+    if tmux list-windows -F '#W' | grep $window; then
+      echo "Reusing existing tmux session '$session's window $window"
+    else
+      tmux new-window -n $window -t $session -c $PWD
+    fi
+  else
+    session="multicmds"
+    tmux new-session -s $sessions -n $window -d
+  fi
+
+  for i in $(seq $#)
+  do
+    tmux split-window -h -t $window
+    tmux send-keys -t $session:$window.$i "$argv[$i]" C-m
+  done
+
+  tmux select-layout -t $window tiled
+  tmux select-pane -t :$window.0
 }
