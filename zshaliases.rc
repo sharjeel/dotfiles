@@ -154,6 +154,16 @@ sshadd () {
   ssh-add -t 10000 "${@: -1}"
 }
 
+issh () {
+  # SSH using U2F
+  KEY=$(ls ~/.ssh/*ecdsa* | grep -v pub | head -n1)
+  if [ -z $KEY ]; then
+    echo "No U2F key found"
+    return
+  fi
+  ssh -i $KEY $1
+}
+
 adbsetlog () {
   adb shell setprop log.tag.$1 $2
 }
