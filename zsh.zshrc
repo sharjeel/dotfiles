@@ -120,6 +120,7 @@ export DIR_persconf="$HOME/.personalconfig"
 source ~/.personalconfig/zshaliases.rc
 
 # g aliased intelligently to bashmark get or git
+unalias g 2>/dev/null
 g () {
         if [ -z $1 ]; then
            cat ~/.sdirs
@@ -136,15 +137,6 @@ g () {
         else
            git "$@"
         fi
-}
-
-# e for editing with emacs in a single window
-e () {
-  if [[ -n "$DISPLAY" || ! -n "$SSH_CLIENT" ]]; then
-     emacsclient --no-wait --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
-  else
-     emacsclient -nw --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
-  fi
 }
 
 # Work or machine specific aliases

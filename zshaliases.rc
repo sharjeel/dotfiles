@@ -94,6 +94,7 @@ g () {
 }
 
 # e for editing with emacs in a single window
+unalias e 2>/dev/null
 e () {
   if [[ -n "$DISPLAY" || ! -n "$SSH_CLIENT" ]]; then
      emacsclient --no-wait --alternate-editor="$HOME/.personalconfig/bin/emacsserv.sh" $@
