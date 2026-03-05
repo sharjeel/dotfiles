@@ -1,5 +1,5 @@
 """
-Note: This is depricated and is only used for emacs on Windows. Use the ansible-playbook.yml ansible playbook.
+Note: This is deprecated and is only used for emacs on Windows. On Linux/macOS use install.sh.
 
 Sharjeel's Scripts installation
 Usage:
@@ -82,4 +82,3 @@ if __name__ == '__main__':
 
     for p in packages:
         globals()[p]()
-

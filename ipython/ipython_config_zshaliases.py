@@ -4,7 +4,7 @@ import os.path
 c = get_config()
 
 lines = []
-for rcfile in ["~/.personalconfig/zshaliases.rc", "~/.zshrc-work", "~/.xrc-work"]:
+for rcfile in ["~/.personalconfig/zshaliases.custom.zsh", "~/.zshrc-work", "~/.xrc-work"]:
     with open(os.path.expanduser(rcfile)) as f:
         lines += f.readlines()
 

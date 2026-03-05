@@ -1,10 +1,10 @@
 alias apple-fn="sudo sh -c 'echo 2 > /sys/module/hid_apple/parameters/fnmode'"
-alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.rc; source ~/.personalconfig/zshaliases.rc; echo "ZSH aliases reloaded"'
+alias aliases='emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshaliases.custom.zsh; source ~/.personalconfig/zshaliases.custom.zsh; echo "ZSH aliases reloaded"'
 alias aliases-work='emacsclient --alternate-editor=emacs -nw ~/.zshaliases-work; source ~/.zshaliases-work; echo "Work aliases reloaded"'
 alias waliases='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias aw='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
-alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zsh.zshrc ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
+alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshrc.custom.zsh ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias sshconf="$EDITOR ~/.ssh/config"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
@@ -67,6 +67,10 @@ alias tmux="tmux -2"
 
 if which trash > /dev/null 2>&1; then
     alias rm=trash
+fi
+
+if ! command -v bat >/dev/null 2>&1 && command -v batcat >/dev/null 2>&1; then
+    alias bat=batcat
 fi
 
 # GCloud SDK

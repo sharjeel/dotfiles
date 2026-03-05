@@ -2,7 +2,7 @@
 ZSH_THEME="sharjeel"
 
 # Enable Bashmarks
-source ~/.local/bin/bashmarks.sh
+[[ -e ~/.local/bin/bashmarks.sh ]] && source ~/.local/bin/bashmarks.sh
 
 # Set browser for commandline
 if [ "$(uname)" = "Darwin" ]; then
@@ -88,8 +88,9 @@ export EDITOR="emacsclient -nw --alternate-editor=emacs"
 
 export TERM=xterm-256color
 
-# Enable zsh-autosuggestions
-if [ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+# Enable zsh-autosuggestions only when explicitly requested.
+# Use: ZSH_AUTOSUGGEST_ENABLED=1 zsh -l
+if [ -e ~/.zsh-autosuggestions/zsh-autosuggestions.zsh ] && [[ "${ZSH_AUTOSUGGEST_ENABLED:-0}" == "1" ]]; then
    # Setup zsh-autosuggestions
    source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
 
@@ -117,7 +118,7 @@ export PATH=~/bin/:~/.local/bin/:~/.personalconfig/bin/:$PATH
 export DIR_persconf="$HOME/.personalconfig"
 
 # Load personal aliases
-source ~/.personalconfig/zshaliases.rc
+[[ -e ~/.personalconfig/zshaliases.custom.zsh ]] && source ~/.personalconfig/zshaliases.custom.zsh
 
 # g aliased intelligently to bashmark get or git
 unalias g 2>/dev/null
@@ -145,21 +146,30 @@ g () {
 
 # Prefer to have .zshenv load ZSH aliases so they are available in IPython as well
 # if not, load them here.
-if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.personalconfig/zshaliases.rc" ~/.zshenv)) {
-  [[ -e ~/.personalconfig/zshaliases.rc ]] && source ~/.personalconfig/zshaliases.rc
+if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.personalconfig/zshaliases.custom.zsh" ~/.zshenv)) {
+  [[ -e ~/.personalconfig/zshaliases.custom.zsh ]] && source ~/.personalconfig/zshaliases.custom.zsh
 }
 if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.zshaliases-work" ~/.zshenv)) {
   [[ -e ~/.zshaliases-work ]] && source ~/.zshaliases-work
 }
 
-# Use Prezto
-if [[ -d ~/.zprezto ]]; then
-  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
-    if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-      ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-    fi
-  done
-  source ~/.zprezto/init.zsh
+# Use Prezto when installed; otherwise continue without it.
+if [[ -f ~/.zprezto/init.zsh ]]; then
   zstyle ':prezto:module:prompt' theme 'skwp'
+  if [[ -d "${ZDOTDIR:-$HOME}/.zprezto/runcoms" ]]; then
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
+      if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
+        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+      fi
+    done
+  fi
+  source ~/.zprezto/init.zsh
 fi 
 
+# Keep syntax-highlighting last for better widget integration.
+if [ -e ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+   source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+   typeset -gA ZSH_HIGHLIGHT_STYLES
+   ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+   ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold'
+fi
