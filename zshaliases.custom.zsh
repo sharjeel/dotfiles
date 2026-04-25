@@ -55,6 +55,8 @@ alias setdisplay='export DISPLAY=:0'
 
 alias en='source env/bin/activate'
 
+alias c="coolify"
+
 # Alias suffixes
 alias -s el=emacs
 alias -s txt=$EDITOR
@@ -145,14 +147,27 @@ tests () {
 }
 
 sshagent () {
-  if [[ -e ~/.ssh-agent.pid && -e /proc/$(cat ~/.ssh-agent.pid) ]]; then
-    export SSH_AUTH_SOCK=~/tmp/ssh-agent
-  else
-    eval `ssh-agent -a ~/tmp/ssh-agent`
-    echo $SSH_AGENT_PID > ~/.ssh-agent.pid
-    ssh-add
+  local sock="$HOME/tmp/ssh-agent"
+  local pidfile="$HOME/.ssh-agent.pid"
+
+  # If socket exists and agent responds, just export and return
+  if [[ -S "$sock" ]] && SSH_AUTH_SOCK="$sock" ssh-add -l &>/dev/null; then
+    export SSH_AUTH_SOCK="$sock"
+    return 0
   fi
+
+  # Clean up stale socket/pid
+  rm -f "$sock" "$pidfile"
+  mkdir -p "$HOME/tmp"
+
+  # Start a new agent
+  eval "$(ssh-agent -a "$sock")"
+  echo "$SSH_AGENT_PID" > "$pidfile"
+  ssh-add
 }
+
+# Auto-start ssh-agent on shell init (only prompts for passphrase once)
+sshagent
 
 sshadd () {
   sshagent
@@ -221,3 +236,5 @@ tmulti () {
   tmux select-layout -t $window tiled
   tmux select-pane -t :$window.0
 }
+
+

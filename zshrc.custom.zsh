@@ -112,6 +112,8 @@ if [ -d $HOME/google-cloud-sdk/ ]; then
 fi
 
 
+
+[[ -e ~/.personalconfig/ai.zsh ]] && source ~/.personalconfig/ai.zsh
 export PATH=~/bin/:~/.local/bin/:~/.personalconfig/bin/:$PATH
 
 # Common bashmarks directories
@@ -173,3 +175,63 @@ if [ -e ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
    ZSH_HIGHLIGHT_STYLES[command]='fg=green'
    ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red,bold'
 fi
+
+# aichat specific features
+# ALT-E to do zsh completion
+# aiselect command to change models
+if (( $+commands[aichat] )); then
+    _aichat_zsh() {
+        if [[ -n "$BUFFER" ]]; then
+            local _old=$BUFFER
+            BUFFER+="⌛"
+            zle -I && zle redisplay
+            BUFFER=$(aichat -e "$_old")
+            zle end-of-line
+        fi
+    }
+    zle -N _aichat_zsh
+    bindkey '\ee' _aichat_zsh
+
+    AICHAT_CONFIG_FILE="${HOME}/.config/aichat/config.yaml"
+
+    aiselect() {
+	local config_file="${AICHAT_CONFIG_FILE:-$HOME/.config/aichat/config.yaml}"
+
+	if [[ ! -f "$config_file" ]]; then
+	    echo "Config file not found: $config_file" >&2
+	    return 1
+	fi
+
+	if ! command -v yq >/dev/null 2>&1; then
+	    echo "yq is required" >&2
+	    return 1
+	fi
+
+	if ! command -v fzf >/dev/null 2>&1; then
+	    echo "fzf is required" >&2
+	    return 1
+	fi
+
+	local current_model
+	current_model="$(yq -r '.model // ""' "$config_file")"
+
+	local selected
+	selected="$(
+    yq -r '.clients[].models[].name' "$config_file" \
+      | awk 'NF && !seen[$0]++' \
+      | fzf --prompt="aichat model > " --header="Current: ${current_model}"
+  )" || return 0
+
+	[[ -z "$selected" ]] && return 0
+
+	yq -i -y '.model = "ollama:'"$selected"'"' "$config_file" || {
+	    echo "Failed to update model in $config_file" >&2
+	    return 1
+	}
+
+	echo "Updated default model to: ollama:$selected"
+    }
+
+fi
+
+
