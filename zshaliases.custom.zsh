@@ -57,6 +57,18 @@ alias en='source env/bin/activate'
 
 alias c="coolify"
 
+coolapps() {
+  coolify --context=sai app list "$@"
+}
+
+cooldeploy() {
+  coolify --context=sai deploy name "$@"
+}
+
+coollogs() {
+  coolify --context=sai app deployments logs "$@"
+}
+
 # Alias suffixes
 alias -s el=emacs
 alias -s txt=$EDITOR
