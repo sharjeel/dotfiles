@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: ai-init [--force] [target-directory]
+
+Scaffold shared AI agent files into a repository.
+
+Options:
+  --force   Overwrite existing target files
+  -h, --help
+EOF
+}
+
+FORCE=0
+TARGET_DIR="."
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --force)
+      FORCE=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      TARGET_DIR="$1"
+      shift
+      ;;
+  esac
+done
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+TEMPLATE_DIR="$REPO_DIR/ai/templates"
+mkdir -p -- "$TARGET_DIR"
+TARGET_DIR="$(cd -- "$TARGET_DIR" && pwd)"
+
+install_template() {
+  local src="$1"
+  local dest="$2"
+
+  mkdir -p "$(dirname "$dest")"
+
+  if [[ -e "$dest" && "$FORCE" -ne 1 ]]; then
+    printf '[ai-init] skip existing %s\n' "$dest"
+    return
+  fi
+
+  cp "$src" "$dest"
+  printf '[ai-init] wrote %s\n' "$dest"
+}
+
+install_template "$TEMPLATE_DIR/AGENTS.md" "$TARGET_DIR/AGENTS.md"
+install_template "$TEMPLATE_DIR/CLAUDE.md" "$TARGET_DIR/CLAUDE.md"
+install_template "$TEMPLATE_DIR/GEMINI.md" "$TARGET_DIR/GEMINI.md"
+install_template "$TEMPLATE_DIR/.gemini/settings.json" "$TARGET_DIR/.gemini/settings.json"
