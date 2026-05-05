@@ -3,12 +3,18 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends bash zsh sed grep coreutils ca-certificates \
+  && apt-get install -y --no-install-recommends bash zsh sed grep coreutils ca-certificates sudo openssh-client \
   && bash -lc 'set -e; for pkg in \
     git git-core emacs python3-pip python3-dev ack-grep build-essential tmux guake colordiff clipit htop \
     libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev; do \
       apt-get install -y --no-install-recommends "$pkg" || true; \
     done'
 
-WORKDIR /dotfiles
-CMD ["bash"]
+RUN useradd --create-home --shell /usr/bin/zsh sharjeeltest \
+  && printf 'sharjeeltest ALL=(ALL) NOPASSWD:ALL\n' >/etc/sudoers.d/sharjeeltest \
+  && chmod 0440 /etc/sudoers.d/sharjeeltest
+
+USER sharjeeltest
+ENV HOME=/home/sharjeeltest
+WORKDIR /home/sharjeeltest
+CMD ["zsh", "-l"]

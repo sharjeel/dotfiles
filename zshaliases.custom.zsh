@@ -159,13 +159,21 @@ tests () {
 }
 
 sshagent () {
+  if ! command -v ssh-agent >/dev/null 2>&1 || ! command -v ssh-add >/dev/null 2>&1; then
+    return 0
+  fi
+
   local sock="$HOME/tmp/ssh-agent"
   local pidfile="$HOME/.ssh-agent.pid"
 
   # If socket exists and agent responds, just export and return
-  if [[ -S "$sock" ]] && SSH_AUTH_SOCK="$sock" ssh-add -l &>/dev/null; then
-    export SSH_AUTH_SOCK="$sock"
-    return 0
+  if [[ -S "$sock" ]]; then
+    SSH_AUTH_SOCK="$sock" ssh-add -l &>/dev/null
+    local agent_status=$?
+    if [[ "$agent_status" -eq 0 || "$agent_status" -eq 1 ]]; then
+      export SSH_AUTH_SOCK="$sock"
+      return 0
+    fi
   fi
 
   # Clean up stale socket/pid
@@ -173,9 +181,12 @@ sshagent () {
   mkdir -p "$HOME/tmp"
 
   # Start a new agent
-  eval "$(ssh-agent -a "$sock")"
+  eval "$(ssh-agent -a "$sock" | sed '/^echo /d')"
   echo "$SSH_AGENT_PID" > "$pidfile"
-  ssh-add
+  local key_files=("$HOME"/.ssh/id_{rsa,dsa,ecdsa,ed25519}(N))
+  if (( ${#key_files[@]} )); then
+    ssh-add "${key_files[@]}"
+  fi
 }
 
 # Auto-start ssh-agent on shell init (only prompts for passphrase once)
@@ -248,5 +259,3 @@ tmulti () {
   tmux select-layout -t $window tiled
   tmux select-pane -t :$window.0
 }
-
-

@@ -92,6 +92,8 @@ ensure_symlink() {
   local src="$1"
   local dest="$2"
 
+  ensure_dir "$(dirname "$dest")"
+
   if [[ -L "$dest" ]] && [[ "$(readlink "$dest")" == "$src" ]]; then
     log "link ok: $dest -> $src"
     return
@@ -149,6 +151,40 @@ setup_prezto_theme() {
   fi
 }
 
+link_skills_to() {
+  local dest_root="$1"
+  local src_dir="$REPO_DIR/ai/skills"
+
+  if [[ ! -d "$src_dir" ]]; then
+    log "skipping $dest_root; $src_dir does not exist"
+    return
+  fi
+
+  shopt -s nullglob
+  local md
+  for md in "$src_dir"/*.md; do
+    local name
+    name="$(basename "$md" .md)"
+    ensure_dir "$dest_root/$name"
+    ensure_symlink "$md" "$dest_root/$name/SKILL.md"
+  done
+  shopt -u nullglob
+}
+
+setup_ai_skills() {
+  link_skills_to "$HOME_DIR/.claude/skills"
+  link_skills_to "$HOME_DIR/.codex/skills"
+}
+
+setup_gemini_settings() {
+  local src="$REPO_DIR/ai/gemini-settings.json"
+  if [[ ! -f "$src" ]]; then
+    log "skipping gemini settings; $src does not exist"
+    return
+  fi
+  ensure_symlink "$src" "$HOME_DIR/.gemini/settings.json"
+}
+
 ensure_zsh_installed() {
   if command -v zsh >/dev/null 2>&1; then
     log "zsh already installed"
@@ -189,6 +225,8 @@ main() {
   setup_prezto_theme
   ensure_symlink "$REPO_DIR/tmux.conf" "$HOME_DIR/.tmux.conf"
   ensure_symlink "$REPO_DIR/ack.ackrc" "$HOME_DIR/.ackrc"
+  setup_ai_skills
+  setup_gemini_settings
   log "provisioning complete"
 }
 
