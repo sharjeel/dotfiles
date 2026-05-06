@@ -143,7 +143,7 @@ setup_zsh() {
 
 setup_prezto_theme() {
   local file="$HOME_DIR/.zpreztorc"
-  local line="zstyle ':prezto:module:prompt' theme 'skwp'"
+  local line="zstyle ':prezto:module:prompt' theme 'sharjeel'"
   if [[ -f "$file" ]]; then
     replace_or_append "$file" '^zstyle.*theme.*$' "s|^zstyle.*theme.*$|$line|" "$line"
   else

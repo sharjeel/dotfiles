@@ -270,7 +270,7 @@ configure_prezto() {
 
 set_prezto_theme_ansible_style() {
   local file="$HOME_DIR/.zpreztorc"
-  local line="zstyle ':prezto:module:prompt' theme 'skwp'"
+  local line="zstyle ':prezto:module:prompt' theme 'sharjeel'"
   local regex='^zstyle.*theme.*$'
 
   # Match Ansible lineinfile(create=no): do nothing if file is missing.

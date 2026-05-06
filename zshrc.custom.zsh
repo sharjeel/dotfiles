@@ -155,64 +155,12 @@ if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.zshaliases-work" ~/.zshen
   [[ -e ~/.zshaliases-work ]] && source ~/.zshaliases-work
 }
 
-setup_fallback_prompt() {
-  setopt PROMPT_SUBST
-
-  typeset -g fallback_host_color="%F{green}"
-  if [[ -n "$SSH_CLIENT" ]]; then
-    fallback_host_color="%F{cyan}"
-  fi
-
-  fallback_prompt_char() {
-    if [[ "$UID" -eq 0 ]]; then
-      print -r -- "%F{red}#"
-    else
-      print -r -- "%F{blue}$"
-    fi
-  }
-
-  fallback_git_prompt() {
-    (( $+commands[git] )) || return 1
-    command git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
-
-    local branch dirty git_status
-    branch="$(command git symbolic-ref --quiet --short HEAD 2>/dev/null \
-      || command git rev-parse --short HEAD 2>/dev/null)" || return 1
-
-    if (( $+commands[timeout] )); then
-      git_status="$(command timeout -s kill 0.5s git status --porcelain --untracked-files=no 2>/dev/null | tail -n1)"
-      if [[ "$?" -ne 0 ]]; then
-        dirty="%F{blue}?"
-      fi
-    else
-      git_status="$(command git status --porcelain --untracked-files=no 2>/dev/null | tail -n1)"
-    fi
-
-    if [[ -z "$dirty" ]]; then
-      if [[ -n "$git_status" ]]; then
-        dirty="%F{blue}x"
-      else
-        dirty="%F{green}+"
-      fi
-    fi
-
-    print -r -- "${fallback_host_color}[${branch} ${dirty}${fallback_host_color}]"
-  }
-
-  fallback_host_prompt() {
-    fallback_git_prompt || print -r -- "${fallback_host_color}%m"
-  }
-
-  fallback_dir_prompt() {
-    print -r -- "%(!.%1~.%~)"
-  }
-
-  PROMPT='%F{red}%n@$(fallback_host_prompt) %F{blue}$(fallback_dir_prompt) $(fallback_prompt_char)%f '
-}
-
-# Use Prezto when installed; otherwise use a small built-in prompt.
+# Use Prezto when installed; otherwise source the theme file directly so the
+# same sharjeel.zsh-theme drives prezto, omz, and standalone setups.
+_personalconfig_dir="${0:A:h}"
 if [[ -f ~/.zprezto/init.zsh ]]; then
-  zstyle ':prezto:module:prompt' theme 'skwp'
+  fpath=("$_personalconfig_dir/prezto/prompts" $fpath)
+  zstyle ':prezto:module:prompt' theme 'sharjeel'
   if [[ -d "${ZDOTDIR:-$HOME}/.zprezto/runcoms" ]]; then
     for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
       if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
@@ -222,8 +170,9 @@ if [[ -f ~/.zprezto/init.zsh ]]; then
   fi
   source ~/.zprezto/init.zsh
 else
-  setup_fallback_prompt
+  source "$_personalconfig_dir/sharjeel.zsh-theme"
 fi
+unset _personalconfig_dir
 
 # Keep syntax-highlighting last for better widget integration.
 if [ -e ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
