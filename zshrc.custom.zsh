@@ -1,6 +1,25 @@
 # Theme
 ZSH_THEME="sharjeel"
 
+# Use Prezto when installed; otherwise source the theme file directly so the
+# same sharjeel.zsh-theme drives prezto, omz, and standalone setups.
+_personalconfig_dir="${0:A:h}"
+if [[ -f ~/.zprezto/init.zsh ]]; then
+  fpath=("$_personalconfig_dir/prezto/prompts" $fpath)
+  zstyle ':prezto:module:prompt' theme 'sharjeel'
+  if [[ -d "${ZDOTDIR:-$HOME}/.zprezto/runcoms" ]]; then
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
+      if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
+        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+      fi
+    done
+  fi
+  source ~/.zprezto/init.zsh
+else
+  source "$_personalconfig_dir/sharjeel.zsh-theme"
+fi
+unset _personalconfig_dir
+
 # Enable Bashmarks
 [[ -e ~/.local/bin/bashmarks.sh ]] && source ~/.local/bin/bashmarks.sh
 
@@ -154,25 +173,6 @@ if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.personalconfig/zshaliases
 if ( [ ! -e ~/.zshenv ] || (! egrep -q "^source $HOME/.zshaliases-work" ~/.zshenv)) {
   [[ -e ~/.zshaliases-work ]] && source ~/.zshaliases-work
 }
-
-# Use Prezto when installed; otherwise source the theme file directly so the
-# same sharjeel.zsh-theme drives prezto, omz, and standalone setups.
-_personalconfig_dir="${0:A:h}"
-if [[ -f ~/.zprezto/init.zsh ]]; then
-  fpath=("$_personalconfig_dir/prezto/prompts" $fpath)
-  zstyle ':prezto:module:prompt' theme 'sharjeel'
-  if [[ -d "${ZDOTDIR:-$HOME}/.zprezto/runcoms" ]]; then
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
-      if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-      fi
-    done
-  fi
-  source ~/.zprezto/init.zsh
-else
-  source "$_personalconfig_dir/sharjeel.zsh-theme"
-fi
-unset _personalconfig_dir
 
 # Keep syntax-highlighting last for better widget integration.
 if [ -e ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then

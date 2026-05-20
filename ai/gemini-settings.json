@@ -4,5 +4,10 @@
       "AGENTS.md",
       "GEMINI.md"
     ]
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
   }
 }

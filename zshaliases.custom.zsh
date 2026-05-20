@@ -6,6 +6,7 @@ alias aw='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshr
 alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zshrc-work; echo "Work aliases reloaded"'
 alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshrc.custom.zsh ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias sshconf="$EDITOR ~/.ssh/config"
+alias opencodeconf="$EDITOR ~/.config/opencode/config.json"
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias grpei='grep -i'
@@ -93,6 +94,7 @@ alias gvm='gcloud compute instances'
 alias gproject='gcloud config set project'
 
 # g aliased intelligently to bashmark get or git
+unalias g 2>/dev/null
 g () {
   if [ -z $1 ]; then
     cat ~/.sdirs
