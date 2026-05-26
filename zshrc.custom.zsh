@@ -99,6 +99,7 @@ makeprint() {
 
 # There is only one default editor in the world
 export EDITOR="emacsclient -nw --alternate-editor=emacs"
+export VISUAL=$EDITOR
 # if [ -n "$SSH_CLIENT" ]; then
 #    export EDITOR="emacs --no-window"
 # else
