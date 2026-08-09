@@ -7,6 +7,7 @@ alias work='emacsclient --alternate-editor=emacs -nw ~/.zshrc-work; source ~/.zs
 alias zshconf="emacsclient --alternate-editor=emacs -nw ~/.personalconfig/zshrc.custom.zsh ~/.zshrc; source ~/.zshrc; echo 'ZSH config reloaded'"
 alias sshconf="$EDITOR ~/.ssh/config"
 alias opencodeconf="$EDITOR ~/.config/opencode/config.json"
+alias aiconf='$EDITOR "$(aichat --info | awk '\''/^config_file/ {sub($1"[ \t]+", ""); print}'\'')"'
 alias grep='grep --color=auto'
 alias grepi='grep -i'
 alias grpei='grep -i'

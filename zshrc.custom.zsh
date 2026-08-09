@@ -97,14 +97,9 @@ makeprint() {
     make --eval="print-%: ; @echo \$*=\$(\$*)" print-$*
 }
 
-# There is only one default editor in the world
-export EDITOR="emacsclient -nw --alternate-editor=emacs"
+# Use the custom editor script in .personalconfig/bin
+export EDITOR="editor.sh"
 export VISUAL=$EDITOR
-# if [ -n "$SSH_CLIENT" ]; then
-#    export EDITOR="emacs --no-window"
-# else
-#    export EDITOR="emacs"
-# fi
 
 export TERM=xterm-256color
 
